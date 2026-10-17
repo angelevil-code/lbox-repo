@@ -1,0 +1,173 @@
+{
+ "generated_at": 1792238858,
+ "generated_at_text": "2026-10-17 20:07",
+ "scanned_repos": 10,
+ "count": 15,
+ "candidates": [
+  {
+   "name": "raw",
+   "url": "https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/raw.json",
+   "type": "book",
+   "kind": "book",
+   "count": 550,
+   "latency": 2689,
+   "repo": "tickmao/Novel",
+   "stars": 1967,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "单仓聚合",
+   "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 517,
+   "latency": 1520,
+   "repo": "Lightconer/tvbox-ysc-config",
+   "stars": 130,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "full",
+   "url": "https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json",
+   "type": "book",
+   "kind": "book",
+   "count": 194,
+   "latency": 2488,
+   "repo": "tickmao/Novel",
+   "stars": 1967,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "api",
+   "url": "https://raw.githubusercontent.com/cluntop/tvbox/main/js/xiaosa/api.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 139,
+   "latency": 1268,
+   "repo": "cluntop/tvbox",
+   "stars": 576,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "api",
+   "url": "https://raw.githubusercontent.com/qist/tvbox/master/xiaosa/api.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 105,
+   "latency": 2006,
+   "repo": "qist/tvbox",
+   "stars": 12050,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "api",
+   "url": "https://raw.githubusercontent.com/ne7359/tvurl/main/xiaosa/api.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 105,
+   "latency": 1172,
+   "repo": "ne7359/tvurl",
+   "stars": 290,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "影视_api",
+   "url": "https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 84,
+   "latency": 1230,
+   "repo": "adminouyang/231006",
+   "stars": 253,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "4k",
+   "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 53,
+   "latency": 1258,
+   "repo": "Lightconer/tvbox-ysc-config",
+   "stars": 130,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "云盘_api",
+   "url": "https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 31,
+   "latency": 1214,
+   "repo": "adminouyang/231006",
+   "stars": 253,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "aa",
+   "url": "https://raw.githubusercontent.com/cluntop/tvbox/main/aa.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 29,
+   "latency": 1272,
+   "repo": "cluntop/tvbox",
+   "stars": 576,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "tv_config",
+   "url": "https://raw.githubusercontent.com/qist/tvbox/master/cat/tjs/tv_config.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 28,
+   "latency": 1991,
+   "repo": "qist/tvbox",
+   "stars": 12050,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "tv_config",
+   "url": "https://raw.githubusercontent.com/ne7359/tvurl/main/cat/tjs/tv_config.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 28,
+   "latency": 1120,
+   "repo": "ne7359/tvurl",
+   "stars": 290,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "磁力_api",
+   "url": "https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 22,
+   "latency": 1141,
+   "repo": "adminouyang/231006",
+   "stars": 253,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "sources",
+   "url": "https://raw.githubusercontent.com/cluntop/tvbox/main/lib/sources.json",
+   "type": "book",
+   "kind": "book",
+   "count": 21,
+   "latency": 1590,
+   "repo": "cluntop/tvbox",
+   "stars": 576,
+   "pushed": "2026-10-17"
+  },
+  {
+   "name": "ouge",
+   "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json",
+   "type": "tvbox",
+   "kind": "tvbox",
+   "count": 12,
+   "latency": 1138,
+   "repo": "Lightconer/tvbox-ysc-config",
+   "stars": 130,
+   "pushed": "2026-10-17"
+  }
+ ]
+}

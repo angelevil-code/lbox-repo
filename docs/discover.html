@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LBOX 源仓库 · 发现</title>
+<style>:root {
+  --bg: #0a0c10;
+  --panel: #12151b;
+  --panel-hi: #171b23;
+  --border: #232932;
+  --border-hi: #303845;
+  --text: #e8eaed;
+  --muted: #8b94a3;
+  --dim: #5c6675;
+  --accent: #4f8cff;
+  --ok: #22c55e;
+  --dead: #ef4444;
+  --warn: #f59e0b;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(900px 400px at 15% -10%, rgba(79,140,255,.10), transparent 60%),
+    radial-gradient(700px 350px at 90% 0%, rgba(34,197,94,.06), transparent 60%);
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 28px;
+  background: rgba(10,12,16,.82);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+
+.logo {
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4f8cff, #22c55e);
+  color: #06121f;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .5px;
+}
+
+.brand-text h1 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: .2px; }
+.brand-text p { margin: 1px 0 0; font-size: 12px; color: var(--muted); }
+
+.top-actions { display: flex; gap: 8px; }
+
+/* ---------- 按钮 ---------- */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border-hi);
+  background: var(--panel-hi);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .16s, border-color .16s, transform .1s;
+  white-space: nowrap;
+}
+.btn:hover { background: #1e232c; border-color: #3b4453; }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .55; cursor: default; }
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #04101f;
+  font-weight: 600;
+}
+.btn.primary:hover { background: #6b9dff; border-color: #6b9dff; }
+
+.btn.ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--muted);
+}
+.btn.ghost:hover { color: var(--text); border-color: var(--border-hi); background: var(--panel); }
+
+/* ---------- 统计 ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px 28px 0;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+
+.stat-head {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 12px; color: var(--muted); letter-spacing: .3px;
+}
+
+.stat-value { margin-top: 6px; display: flex; align-items: baseline; gap: 6px; }
+.stat-value b { font-size: 22px; font-weight: 600; letter-spacing: -.3px; }
+.stat-value span { font-size: 12px; color: var(--dim); }
+.stat-foot { margin-top: 2px; font-size: 12px; color: var(--dim); }
+
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  display: inline-block; flex: none;
+}
+.dot.book { background: var(--accent); box-shadow: 0 0 8px rgba(79,140,255,.6); }
+.dot.tvbox { background: var(--ok); box-shadow: 0 0 8px rgba(34,197,94,.6); }
+.dot.time { background: var(--dim); }
+
+/* ---------- 工具栏 ---------- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px 14px;
+  flex-wrap: wrap;
+}
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.tab {
+  appearance: none; border: 0; background: transparent;
+  color: var(--muted); font-family: inherit; font-size: 13px;
+  padding: 6px 14px; border-radius: 7px; cursor: pointer;
+  transition: background .16s, color .16s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { background: var(--panel-hi); color: var(--text); box-shadow: 0 1px 0 rgba(255,255,255,.04) inset; }
+
+.search {
+  flex: 0 1 280px;
+  min-width: 160px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color .16s, background .16s;
+}
+.search::placeholder { color: var(--dim); }
+.search:focus { border-color: var(--accent); background: var(--panel-hi); }
+
+.spacer { flex: 1; }
+
+/* ---------- 卡片网格 ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 12px;
+  padding: 0 28px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color .16s, background .16s, transform .12s;
+}
+.card:hover {
+  border-color: var(--border-hi);
+  background: var(--panel-hi);
+  transform: translateY(-1px);
+}
+
+.card-top { display: flex; align-items: center; gap: 8px; min-width: 0; }
+
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.status-dot.ok { background: var(--ok); box-shadow: 0 0 7px rgba(34,197,94,.7); }
+.status-dot.dead { background: var(--dead); box-shadow: 0 0 7px rgba(239,68,68,.6); }
+.status-dot.unchecked { background: var(--dim); }
+
+.card-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.badge {
+  flex: none;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-hi);
+  color: var(--muted);
+  letter-spacing: .2px;
+}
+.badge.book { color: #8ab4ff; border-color: rgba(79,140,255,.35); background: rgba(79,140,255,.08); }
+.badge.tvbox { color: #7ee0a1; border-color: rgba(34,197,94,.32); background: rgba(34,197,94,.08); }
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.card-meta .sep { color: var(--border-hi); }
+.card-meta .err { color: #f08a8a; }
+
+.card-url {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  color: var(--dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(255,255,255,.02);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 5px 8px;
+}
+
+.card-actions { display: flex; gap: 6px; margin-top: 2px; }
+
+.mini {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all .14s;
+}
+.mini:hover { color: var(--text); border-color: var(--border-hi); background: rgba(255,255,255,.03); }
+.mini.danger:hover { color: #ffb4b4; border-color: rgba(239,68,68,.5); background: rgba(239,68,68,.08); }
+
+/* ---------- 空状态 ---------- */
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--dim);
+}
+.empty p { margin: 0 0 6px; font-size: 15px; color: var(--muted); }
+.empty span { font-size: 12.5px; }
+
+/* ---------- 弹窗 ---------- */
+.dlg {
+  border: 1px solid var(--border-hi);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 0;
+  width: min(460px, 92vw);
+}
+.dlg::backdrop { background: rgba(0,0,0,.6); backdrop-filter: blur(3px); }
+.dlg form { padding: 20px 22px 18px; display: flex; flex-direction: column; gap: 12px; }
+.dlg h2 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
+.dlg label { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; color: var(--muted); }
+.dlg input, .dlg select {
+  background: var(--panel-hi);
+  border: 1px solid var(--border-hi);
+  border-radius: 9px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 9px 11px;
+  outline: none;
+}
+.dlg input:focus, .dlg select:focus { border-color: var(--accent); }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+
+/* ---------- toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 34px;
+  transform: translate(-50%, 20px);
+  background: #1c2230;
+  border: 1px solid var(--border-hi);
+  color: var(--text);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  z-index: 60;
+  max-width: 90vw;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 860px) {
+  .topbar { padding: 12px 16px; }
+  .stats { grid-template-columns: 1fr; padding: 14px 16px 0; }
+  .toolbar { padding: 12px 16px; }
+  .grid { grid-template-columns: 1fr; padding: 0 16px; }
+  .search { flex: 1 1 100%; order: 3; }
+  .spacer { display: none; }
+  .brand-text p { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">LB</div>
+    <div class="brand-text">
+      <h1>发现新源</h1>
+      <p>扫描了 10 个仓库 · 更新于 2026-10-17 20:07</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <a class="btn" href="./">返回首页</a>
+    <a class="btn primary" href="https://github.com/angelevil-code/lbox-repo/edit/main/seed_sources.json" target="_blank">编辑源清单</a>
+  </div>
+</header>
+
+<section class="sub-box">
+  <div class="sub-row">
+    <span class="sub-label">怎么加</span>
+    <span style="flex:1;color:var(--muted);font-size:12.5px">
+      点「复制配置」→ 打开右上角「编辑源清单」→ 粘到 sources 数组里（注意前一条末尾加逗号）→ 提交，1 分钟后自动生效
+    </span>
+  </div>
+</section>
+
+<main class="grid">
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">raw</h3>
+        <span class="badge book">书源</span>
+      </div>
+      <div class="card-meta">
+        <span>550 条书源</span><span class="sep">·</span><span>2689ms</span>
+        <span class="sep">·</span><span>tickmao/Novel</span>
+        <span class="sep">·</span><span>★1967</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/raw.json">https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/raw.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;book&quot;,
+  &quot;name&quot;: &quot;raw&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/raw.json&quot;,
+  &quot;origin&quot;: &quot;github/tickmao&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/raw.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">单仓聚合</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>517 个站点</span><span class="sep">·</span><span>1520ms</span>
+        <span class="sep">·</span><span>Lightconer/tvbox-ysc-config</span>
+        <span class="sep">·</span><span>★130</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json">https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;单仓聚合&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json&quot;,
+  &quot;origin&quot;: &quot;github/Lightconer&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">full</h3>
+        <span class="badge book">书源</span>
+      </div>
+      <div class="card-meta">
+        <span>194 条书源</span><span class="sep">·</span><span>2488ms</span>
+        <span class="sep">·</span><span>tickmao/Novel</span>
+        <span class="sep">·</span><span>★1967</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json">https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;book&quot;,
+  &quot;name&quot;: &quot;full&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json&quot;,
+  &quot;origin&quot;: &quot;github/tickmao&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">api</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>139 个站点</span><span class="sep">·</span><span>1268ms</span>
+        <span class="sep">·</span><span>cluntop/tvbox</span>
+        <span class="sep">·</span><span>★576</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/cluntop/tvbox/main/js/xiaosa/api.json">https://raw.githubusercontent.com/cluntop/tvbox/main/js/xiaosa/api.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;api&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/cluntop/tvbox/main/js/xiaosa/api.json&quot;,
+  &quot;origin&quot;: &quot;github/cluntop&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/cluntop/tvbox/main/js/xiaosa/api.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">api</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>105 个站点</span><span class="sep">·</span><span>2006ms</span>
+        <span class="sep">·</span><span>qist/tvbox</span>
+        <span class="sep">·</span><span>★12050</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/qist/tvbox/master/xiaosa/api.json">https://raw.githubusercontent.com/qist/tvbox/master/xiaosa/api.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;api&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/qist/tvbox/master/xiaosa/api.json&quot;,
+  &quot;origin&quot;: &quot;github/qist&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/qist/tvbox/master/xiaosa/api.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">api</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>105 个站点</span><span class="sep">·</span><span>1172ms</span>
+        <span class="sep">·</span><span>ne7359/tvurl</span>
+        <span class="sep">·</span><span>★290</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/ne7359/tvurl/main/xiaosa/api.json">https://raw.githubusercontent.com/ne7359/tvurl/main/xiaosa/api.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;api&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/ne7359/tvurl/main/xiaosa/api.json&quot;,
+  &quot;origin&quot;: &quot;github/ne7359&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/ne7359/tvurl/main/xiaosa/api.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">影视_api</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>84 个站点</span><span class="sep">·</span><span>1230ms</span>
+        <span class="sep">·</span><span>adminouyang/231006</span>
+        <span class="sep">·</span><span>★253</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json">https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;影视_api&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json&quot;,
+  &quot;origin&quot;: &quot;github/adminouyang&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">4k</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>53 个站点</span><span class="sep">·</span><span>1258ms</span>
+        <span class="sep">·</span><span>Lightconer/tvbox-ysc-config</span>
+        <span class="sep">·</span><span>★130</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json">https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;4k&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json&quot;,
+  &quot;origin&quot;: &quot;github/Lightconer&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">云盘_api</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>31 个站点</span><span class="sep">·</span><span>1214ms</span>
+        <span class="sep">·</span><span>adminouyang/231006</span>
+        <span class="sep">·</span><span>★253</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json">https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;云盘_api&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json&quot;,
+  &quot;origin&quot;: &quot;github/adminouyang&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">aa</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>29 个站点</span><span class="sep">·</span><span>1272ms</span>
+        <span class="sep">·</span><span>cluntop/tvbox</span>
+        <span class="sep">·</span><span>★576</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/cluntop/tvbox/main/aa.json">https://raw.githubusercontent.com/cluntop/tvbox/main/aa.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;aa&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/cluntop/tvbox/main/aa.json&quot;,
+  &quot;origin&quot;: &quot;github/cluntop&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/cluntop/tvbox/main/aa.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">tv_config</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>28 个站点</span><span class="sep">·</span><span>1991ms</span>
+        <span class="sep">·</span><span>qist/tvbox</span>
+        <span class="sep">·</span><span>★12050</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/qist/tvbox/master/cat/tjs/tv_config.json">https://raw.githubusercontent.com/qist/tvbox/master/cat/tjs/tv_config.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;tv_config&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/qist/tvbox/master/cat/tjs/tv_config.json&quot;,
+  &quot;origin&quot;: &quot;github/qist&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/qist/tvbox/master/cat/tjs/tv_config.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">tv_config</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>28 个站点</span><span class="sep">·</span><span>1120ms</span>
+        <span class="sep">·</span><span>ne7359/tvurl</span>
+        <span class="sep">·</span><span>★290</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/ne7359/tvurl/main/cat/tjs/tv_config.json">https://raw.githubusercontent.com/ne7359/tvurl/main/cat/tjs/tv_config.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;tv_config&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/ne7359/tvurl/main/cat/tjs/tv_config.json&quot;,
+  &quot;origin&quot;: &quot;github/ne7359&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/ne7359/tvurl/main/cat/tjs/tv_config.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">磁力_api</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>22 个站点</span><span class="sep">·</span><span>1141ms</span>
+        <span class="sep">·</span><span>adminouyang/231006</span>
+        <span class="sep">·</span><span>★253</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json">https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;磁力_api&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json&quot;,
+  &quot;origin&quot;: &quot;github/adminouyang&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">sources</h3>
+        <span class="badge book">书源</span>
+      </div>
+      <div class="card-meta">
+        <span>21 条书源</span><span class="sep">·</span><span>1590ms</span>
+        <span class="sep">·</span><span>cluntop/tvbox</span>
+        <span class="sep">·</span><span>★576</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/cluntop/tvbox/main/lib/sources.json">https://raw.githubusercontent.com/cluntop/tvbox/main/lib/sources.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;book&quot;,
+  &quot;name&quot;: &quot;sources&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/cluntop/tvbox/main/lib/sources.json&quot;,
+  &quot;origin&quot;: &quot;github/cluntop&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/cluntop/tvbox/main/lib/sources.json">复制地址</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-top">
+        <span class="status-dot ok"></span>
+        <h3 class="card-title">ouge</h3>
+        <span class="badge tvbox">TVBox</span>
+      </div>
+      <div class="card-meta">
+        <span>12 个站点</span><span class="sep">·</span><span>1138ms</span>
+        <span class="sep">·</span><span>Lightconer/tvbox-ysc-config</span>
+        <span class="sep">·</span><span>★130</span>
+      </div>
+      <div class="card-url" title="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json">https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json</div>
+      <div class="card-actions">
+        <button class="mini" data-copy='{
+  &quot;type&quot;: &quot;tvbox&quot;,
+  &quot;name&quot;: &quot;ouge&quot;,
+  &quot;url&quot;: &quot;https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json&quot;,
+  &quot;origin&quot;: &quot;github/Lightconer&quot;
+}'>复制配置</button>
+        <button class="mini" data-copy="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json">复制地址</button>
+      </div>
+    </article>
+</main>
+
+<p class="note">只收录「能拉取 + 结构正确」的地址，不判断里面的片子能不能播。候选每天刷新一次。</p>
+
+<div id="toast" class="toast"></div>
+<script>
+function toast(m) {
+  const el = document.getElementById("toast");
+  el.textContent = m; el.classList.add("show");
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("show"), 1800);
+}
+async function copy(t) {
+  try { await navigator.clipboard.writeText(t); return true; }
+  catch {
+    const a = document.createElement("textarea");
+    a.value = t; a.style.position = "fixed"; a.style.opacity = "0";
+    document.body.appendChild(a); a.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch {}
+    a.remove(); return ok;
+  }
+}
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-copy]");
+  if (!b) return;
+  toast(await copy(b.dataset.copy) ? "已复制" : "复制失败");
+});
+</script>
+</body>
+</html>

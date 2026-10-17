@@ -30,6 +30,11 @@ jobs:
       - name: 检测源并生成静态站
         run: python server.py --build --out docs
 
+      - name: 扫描 GitHub 上的新源
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python discover.py --out docs
+
       - name: 提交结果
         run: |
           git config user.name  "github-actions[bot]"

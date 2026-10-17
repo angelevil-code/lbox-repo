@@ -443,6 +443,7 @@ def render_static(sources, st, built_at):
 <style>
 .sub-box {{ background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 16px; margin: 0 28px 16px; display: grid; gap: 10px; }}
+a.btn {{ text-decoration: none; display: inline-flex; align-items: center; }}
 .sub-row {{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }}
 .sub-label {{ font-size: 12px; color: var(--muted); width: 76px; flex: none; }}
 .sub-url {{ flex: 1; min-width: 200px; font-family: ui-monospace, Consolas, monospace; font-size: 12px;
@@ -462,7 +463,10 @@ def render_static(sources, st, built_at):
       <p>书源 · TVBox 配置 · 每日自动更新</p>
     </div>
   </div>
-  <div class="top-actions"><span class="badge">更新于 {updated}</span></div>
+  <div class="top-actions">
+    <a class="btn" href="./discover.html">发现新源</a>
+    <span class="badge">更新于 {updated}</span>
+  </div>
 </header>
 
 <section class="stats">
