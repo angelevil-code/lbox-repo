@@ -177,6 +177,19 @@ def discover(max_repos=MAX_REPOS):
     return results, len(repos)
 
 
+REPO_SLUG = "angelevil-code/lbox-repo"
+
+
+def build_issue_url(c):
+    """生成预填好的 GitHub 新建 issue 链接，点一下就能提交"""
+    body = (f"{c['url']}\n\n"
+            f"类型：{c['type']}\n"
+            f"来源：{c['repo']}\n"
+            f"内容：{c['count']} 项\n")
+    q = urllib.parse.urlencode({"title": f"[add] {c['name']}", "body": body})
+    return f"https://github.com/{REPO_SLUG}/issues/new?{q}"
+
+
 def render_page(cands, scanned, built_at):
     css_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "style.css")
     css = ""
@@ -210,6 +223,7 @@ def render_page(cands, scanned, built_at):
       </div>
       <div class="card-url" title="{html.escape(c['url'])}">{html.escape(c['url'])}</div>
       <div class="card-actions">
+        <a class="mini add" href="{build_issue_url(c)}" target="_blank" rel="noopener">加入源池</a>
         <button class="mini" data-copy='{html.escape(snippet)}'>复制配置</button>
         <button class="mini" data-copy="{html.escape(c['url'])}">复制地址</button>
       </div>
@@ -225,6 +239,11 @@ def render_page(cands, scanned, built_at):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LBOX 源仓库 · 发现</title>
 <style>{css}</style>
+<style>
+a.mini {{ text-decoration: none; display: inline-flex; align-items: center; }}
+a.mini.add {{ color: #7ee0a1; border-color: rgba(34,197,94,.38); background: rgba(34,197,94,.10); }}
+a.mini.add:hover {{ background: rgba(34,197,94,.18); color: #a9f2c0; border-color: rgba(34,197,94,.6); }}
+</style>
 </head>
 <body>
 
@@ -246,7 +265,7 @@ def render_page(cands, scanned, built_at):
   <div class="sub-row">
     <span class="sub-label">怎么加</span>
     <span style="flex:1;color:var(--muted);font-size:12.5px">
-      点「复制配置」→ 打开右上角「编辑源清单」→ 粘到 sources 数组里（注意前一条末尾加逗号）→ 提交，1 分钟后自动生效
+      点「加入源池」→ GitHub 表单已经填好了，直接点 <b>Submit new issue</b> → 机器人自动检测并加入，1 分钟后生效
     </span>
   </div>
 </section>

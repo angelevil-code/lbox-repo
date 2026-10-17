@@ -1,0 +1,70 @@
+name: add-source
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  add:
+    if: startsWith(github.event.issue.title, '[add]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 解析地址并探测
+        id: add
+        continue-on-error: true
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: python add_from_issue.py
+
+      - name: 提交清单
+        if: steps.add.outcome == 'success'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add seed_sources.json
+          if git diff --staged --quiet; then
+            echo "清单无变化（可能已存在）"
+            exit 0
+          fi
+          git commit -m "feat: 从 issue #${{ github.event.issue.number }} 添加源"
+          for i in 1 2 3; do
+            if git push; then
+              echo "推送成功"
+              exit 0
+            fi
+            echo "第 $i 次被拒，rebase 重试"
+            git pull --rebase --autostash origin main || true
+            sleep 3
+          done
+          exit 1
+
+      - name: 回复成功并关闭
+        if: steps.add.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} \
+            --repo ${{ github.repository }} \
+            --body "✅ 已加入源池。1 分钟后自动重新检测并发布，订阅地址会跟着更新。"
+          gh issue close ${{ github.event.issue.number }} --repo ${{ github.repository }}
+
+      - name: 回复失败并关闭
+        if: steps.add.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} \
+            --repo ${{ github.repository }} \
+            --body "❌ 添加失败：地址拉不到，或结构不是书源/TVBox 配置。可以重新提交，或手动改 seed_sources.json。"
+          gh issue close ${{ github.event.issue.number }} --repo ${{ github.repository }}
