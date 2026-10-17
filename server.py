@@ -485,6 +485,12 @@ def render_static(sources, st, built_at, play=None):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+<meta name="theme-color" content="#0a0c10">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>LBOX 源仓库</title>
 <style>{css}</style>
 <style>
@@ -581,6 +587,30 @@ document.addEventListener("click", async (e) => {{
 </html>"""
 
 
+ICON_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#4f8cff"/><stop offset="1" stop-color="#22c55e"/>
+</linearGradient></defs>
+<rect width="512" height="512" rx="112" fill="#0a0c10"/>
+<rect x="36" y="36" width="440" height="440" rx="92" fill="url(#g)"/>
+<text x="256" y="262" text-anchor="middle" dominant-baseline="central"
+ font-family="system-ui,-apple-system,sans-serif" font-size="196" font-weight="700"
+ fill="#06121f">LB</text>
+</svg>"""
+
+MANIFEST = {
+    "name": "LBOX 源仓库",
+    "short_name": "LBOX",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#0a0c10",
+    "theme_color": "#0a0c10",
+    "icons": [{"src": "icon.svg", "sizes": "any",
+               "type": "image/svg+xml", "purpose": "any"}],
+}
+
+
 def merge_fail_state(outdir):
     """CI 每次都是全新数据库，fail_count 无法跨次累积。
     用 docs/state.json 记住上次的失败次数，让「连续失败 3 次才剔除」真正生效。"""
@@ -614,6 +644,11 @@ def build_static(outdir):
     os.makedirs(outdir, exist_ok=True)
     # GitHub Pages 默认走 Jekyll，放这个空文件让它跳过处理
     open(os.path.join(outdir, ".nojekyll"), "w").close()
+    # PWA：让手机可以「添加到主屏幕」，像 App 一样打开
+    with open(os.path.join(outdir, "icon.svg"), "w", encoding="utf-8") as f:
+        f.write(ICON_SVG)
+    with open(os.path.join(outdir, "manifest.webmanifest"), "w", encoding="utf-8") as f:
+        json.dump(MANIFEST, f, ensure_ascii=False, indent=1)
     print("[build] 开始检测所有源 …")
     r = check_all()
     print(f"[build] 检测完成：{r['ok']} 可用 / {r['dead']} 失效")
