@@ -564,6 +564,34 @@ document.addEventListener("click", async (e) => {{
 </html>"""
 
 
+def merge_fail_state(outdir):
+    """CI 每次都是全新数据库，fail_count 无法跨次累积。
+    用 docs/state.json 记住上次的失败次数，让「连续失败 3 次才剔除」真正生效。"""
+    path = os.path.join(outdir, "state.json")
+    old = {}
+    if os.path.exists(path):
+        try:
+            with open(path, encoding="utf-8") as f:
+                old = json.load(f)
+        except Exception:
+            old = {}
+
+    new = {}
+    with _DB_LOCK, closing(db()) as conn, conn:
+        for r in list(conn.execute("SELECT id, url, status FROM sources")):
+            prev = int((old.get(r["url"]) or {}).get("fail_count", 0) or 0)
+            fc = 0 if r["status"] == "ok" else prev + 1
+            conn.execute("UPDATE sources SET fail_count=? WHERE id=?", (fc, r["id"]))
+            new[r["url"]] = {"fail_count": fc}
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(new, f, ensure_ascii=False, indent=1)
+    warn = [u for u, v in new.items() if v["fail_count"] >= 2]
+    if warn:
+        print(f"[build] 连续失败 2 次以上的源：{len(warn)} 个")
+    return new
+
+
 def build_static(outdir):
     """跑一遍检测，把结果输出成可直接托管的静态站"""
     os.makedirs(outdir, exist_ok=True)
@@ -575,6 +603,7 @@ def build_static(outdir):
 
     print("[build] 合并书源 …")
     book = export_book()
+    merge_fail_state(outdir)
     tvbox = export_tvbox()
     sources = list_sources()
     st = stats()

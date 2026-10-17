@@ -1,0 +1,29 @@
+{
+ "https://raw.githubusercontent.com/XIU2/Yuedu/master/shuyuan": {
+  "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/CandyMuj/ResourceInterface/main/Legado/candymuj.json": {
+  "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/jiwangyihao/source-j-legado/main/bilinovel.json": {
+  "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/jiwangyihao/source-j-legado/main/esjzone.json": {
+  "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/gaotianliuyun/gao/master/0821.json": {
+  "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/qist/tvbox/master/0825.json": {
+  "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/noimank/tvbox/main/tvboxmuti.json": {
+  "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/CandyMuj/ResourceInterface/main/TVBox/candymuj.json": {
+  "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json": {
+  "fail_count": 0
+ }
+}
