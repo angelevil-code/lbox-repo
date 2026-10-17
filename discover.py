@@ -23,7 +23,7 @@ import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
-from server import detect, fetch, normalize
+from server import detect, extract_keys, fetch, loads_lenient, normalize, similarity
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -126,6 +126,8 @@ def probe_candidate(full_name, branch, path, repo_meta):
     kind, typ, count, derr = detect(body)
     if kind == "unknown":
         return None
+    obj, _ = loads_lenient(body.decode("utf-8", "ignore"))
+    keys = extract_keys(obj) if obj is not None else set()
     return {
         "name": path.split("/")[-1].replace(".json", ""),
         "url": url,
@@ -136,7 +138,30 @@ def probe_candidate(full_name, branch, path, repo_meta):
         "repo": full_name,
         "stars": repo_meta.get("stargazers_count", 0),
         "pushed": (repo_meta.get("pushed_at") or "")[:10],
+        "_keys": keys,
     }
+
+
+def load_pool_keys():
+    """把已入池的 TVBox 源拉一遍，算出各自的标识集合，用于和候选比重复度"""
+    seed_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "seed_sources.json")
+    try:
+        with open(seed_path, encoding="utf-8") as f:
+            seed = json.load(f)
+    except Exception:
+        return []
+    out = []
+    for item in seed.get("sources", []):
+        if item.get("type") != "tvbox":
+            continue
+        body, _, _ = fetch(normalize(item["url"]), timeout=10, retries=0)
+        if not body:
+            continue
+        obj, _ = loads_lenient(body.decode("utf-8", "ignore"))
+        keys = extract_keys(obj) if obj is not None else set()
+        if keys:
+            out.append((item["name"], keys))
+    return out
 
 
 def discover(max_repos=MAX_REPOS):
@@ -174,6 +199,25 @@ def discover(max_repos=MAX_REPOS):
 
     results.sort(key=lambda x: (-x["count"], -x["stars"]))
     print(f"[discover] 可用候选 {len(results)} 个")
+
+    # 和已入池的源比内容重复度，避免推荐「装的是同一批站点」的候选
+    pool = load_pool_keys()
+    if pool:
+        print(f"[discover] 对比已有 {len(pool)} 个仓的内容重复度 …")
+        dup_cnt = 0
+        for c in results:
+            keys = c.pop("_keys", set())
+            best, bname = 0.0, ""
+            for pname, pkeys in pool:
+                s = similarity(keys, pkeys)
+                if s > best:
+                    best, bname = s, pname
+            c["dup"] = round(best * 100)
+            c["dup_with"] = bname
+            if c["dup"] >= 70:
+                dup_cnt += 1
+        print(f"[discover] 与已有源重复 70% 以上的：{dup_cnt} 个")
+
     return results, len(repos)
 
 
@@ -209,6 +253,12 @@ def render_page(cands, scanned, built_at):
             "type": c["type"], "name": c["name"], "url": c["url"],
             "origin": "github/" + c["repo"].split("/")[0],
         }, ensure_ascii=False, indent=2)
+        dup = c.get("dup", 0)
+        dup_html = ""
+        if dup >= 40:
+            dup_html = (f"<span class='sep'>·</span>"
+                        f"<span class='err'>与「{html.escape(c.get('dup_with', ''))}」"
+                        f"重叠 {dup}%</span>")
         return f"""
     <article class="card">
       <div class="card-top">
@@ -219,7 +269,7 @@ def render_page(cands, scanned, built_at):
       <div class="card-meta">
         <span>{unit}</span><span class="sep">·</span><span>{c['latency']}ms</span>
         <span class="sep">·</span><span>{html.escape(c['repo'])}</span>
-        <span class="sep">·</span><span>★{c['stars']}</span>
+        <span class="sep">·</span><span>★{c['stars']}</span>{dup_html}
       </div>
       <div class="card-url" title="{html.escape(c['url'])}">{html.escape(c['url'])}</div>
       <div class="card-actions">

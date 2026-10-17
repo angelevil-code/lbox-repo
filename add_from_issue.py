@@ -13,17 +13,43 @@ import os
 import re
 import sys
 
-from server import detect, fetch, normalize
+from server import detect, extract_keys, fetch, loads_lenient, normalize, similarity
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 SEED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "seed_sources.json")
 
+# 相似度到这个程度就认为「装的是同一批东西」
+DUP_REJECT = 0.70
+DUP_WARN = 0.40
+
 
 def fail(msg):
     print(f"[add] 失败：{msg}")
     sys.exit(1)
+
+
+def check_duplicate(new_keys, seed, typ):
+    """和池子里同类型的源逐个比 Jaccard，返回 (最高相似度, 那个源的名字)"""
+    best, best_name = 0.0, ""
+    for item in seed.get("sources", []):
+        if item.get("type") != typ:
+            continue
+        body, _, _ = fetch(normalize(item["url"]), timeout=10, retries=0)
+        if not body:
+            continue
+        obj, _ = loads_lenient(body.decode("utf-8", "ignore"))
+        if obj is None:
+            continue
+        old = extract_keys(obj)
+        if not old:
+            continue
+        sim = similarity(new_keys, old)
+        print(f"    对比 {item['name'][:18]:20s} 相似度 {sim*100:>3.0f}%")
+        if sim > best:
+            best, best_name = sim, item["name"]
+    return best, best_name
 
 
 def main():
@@ -58,6 +84,17 @@ def main():
         print("[add] 这个地址已经在清单里了，不重复添加")
         print(f"[add] RESULT=exists {name}")
         return
+
+    # 内容级去重：不同地址装同一批站点的情况很常见（同仓库的不同版本、fork、镜像）
+    obj, _ = loads_lenient(raw.decode("utf-8", "ignore"))
+    new_keys = extract_keys(obj)
+    if new_keys:
+        print("[add] 检查是否与池子里的源内容重复 …")
+        sim, sim_name = check_duplicate(new_keys, seed, typ)
+        if sim >= DUP_REJECT:
+            fail(f"与「{sim_name}」内容重复 {sim * 100:.0f}%，装的是同一批站点，不再添加")
+        if sim >= DUP_WARN:
+            print(f"[add] 注意：与「{sim_name}」重复 {sim * 100:.0f}%，仍然添加")
 
     # raw.githubusercontent.com/owner/repo/... 和 github.com/owner/repo 都要能识别
     m = (re.search(r"githubusercontent\.com/([^/]+)/", url)
