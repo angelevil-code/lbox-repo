@@ -488,16 +488,7 @@ def render_static(sources, st, built_at, play=None):
 <title>LBOX 源仓库</title>
 <style>{css}</style>
 <style>
-.sub-box {{ background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 16px; margin: 0 28px 16px; display: grid; gap: 10px; }}
 a.btn {{ text-decoration: none; display: inline-flex; align-items: center; }}
-.sub-row {{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }}
-.sub-label {{ font-size: 12px; color: var(--muted); width: 76px; flex: none; }}
-.sub-url {{ flex: 1; min-width: 200px; font-family: ui-monospace, Consolas, monospace; font-size: 12px;
-  color: var(--text); background: rgba(255,255,255,.03); border: 1px solid var(--border);
-  border-radius: 7px; padding: 7px 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
-.note {{ padding: 0 28px 40px; color: var(--dim); font-size: 12px; }}
-@media (max-width: 860px) {{ .sub-box, .note {{ margin-left: 16px; margin-right: 16px; padding-left: 0; padding-right: 0; }} }}
 </style>
 </head>
 <body>

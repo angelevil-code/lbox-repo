@@ -306,15 +306,15 @@ a.mini.add:hover {{ background: rgba(34,197,94,.18); color: #a9f2c0; border-colo
     </div>
   </div>
   <div class="top-actions">
-    <a class="btn" href="./">返回首页</a>
-    <a class="btn primary" href="https://github.com/angelevil-code/lbox-repo/edit/main/seed_sources.json" target="_blank">编辑源清单</a>
+    <a class="btn" href="./">首页</a>
+    <a class="btn primary" href="https://github.com/angelevil-code/lbox-repo/edit/main/seed_sources.json" target="_blank">编辑清单</a>
   </div>
 </header>
 
 <section class="sub-box">
   <div class="sub-row">
     <span class="sub-label">怎么加</span>
-    <span style="flex:1;color:var(--muted);font-size:12.5px">
+    <span style="flex:1;min-width:0;color:var(--muted);font-size:12.5px;line-height:1.7;overflow-wrap:anywhere">
       点「加入源池」→ GitHub 表单已经填好了，直接点 <b>Submit new issue</b> → 机器人自动检测并加入，1 分钟后生效
     </span>
   </div>

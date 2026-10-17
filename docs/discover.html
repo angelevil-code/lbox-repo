@@ -35,6 +35,7 @@ html, body {
 }
 
 body {
+  overflow-x: hidden;
   background-image:
     radial-gradient(900px 400px at 15% -10%, rgba(79,140,255,.10), transparent 60%),
     radial-gradient(700px 350px at 90% 0%, rgba(34,197,94,.06), transparent 60%);
@@ -196,6 +197,7 @@ body {
 }
 
 .card {
+  min-width: 0;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -244,7 +246,8 @@ body {
 .card-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 6px 10px;
   font-size: 12px;
   color: var(--muted);
 }
@@ -252,6 +255,7 @@ body {
 .card-meta .err { color: #f08a8a; }
 
 .card-url {
+  min-width: 0;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 11.5px;
   color: var(--dim);
@@ -280,6 +284,53 @@ body {
 }
 .mini:hover { color: var(--text); border-color: var(--border-hi); background: rgba(255,255,255,.03); }
 .mini.danger:hover { color: #ffb4b4; border-color: rgba(239,68,68,.5); background: rgba(239,68,68,.08); }
+
+/* ---------- 订阅 / 提示区块 ---------- */
+.sub-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 0 28px 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.sub-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sub-label {
+  font-size: 12px;
+  color: var(--muted);
+  width: 76px;
+  flex: none;
+}
+
+.sub-url {
+  flex: 1;
+  min-width: 120px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--text);
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 7px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note {
+  padding: 0 28px 40px;
+  color: var(--dim);
+  font-size: 12px;
+  line-height: 1.7;
+}
 
 /* ---------- 空状态 ---------- */
 .empty {
@@ -338,13 +389,22 @@ body {
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 860px) {
-  .topbar { padding: 12px 16px; }
+  .topbar { padding: 12px 16px; flex-direction: column; align-items: stretch; gap: 8px; }
+  .top-actions { justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+  .top-actions .badge { display: none; }
+  .btn { padding: 7px 12px; font-size: 12.5px; }
+  .card-actions { flex-wrap: wrap; }
   .stats { grid-template-columns: 1fr; padding: 14px 16px 0; }
   .toolbar { padding: 12px 16px; }
   .grid { grid-template-columns: 1fr; padding: 0 16px; }
   .search { flex: 1 1 100%; order: 3; }
   .spacer { display: none; }
   .brand-text p { display: none; }
+  .sub-box { margin-left: 16px; margin-right: 16px; padding: 12px; }
+  .note { padding: 0 16px 32px; }
+  .sub-label { width: auto; }
+  .sub-row { flex-direction: column; align-items: stretch; gap: 6px; }
+  .sub-url { min-width: 0; }
 }
 </style>
 <style>
@@ -360,19 +420,19 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
     <div class="logo">LB</div>
     <div class="brand-text">
       <h1>发现新源</h1>
-      <p>扫描了 30 个仓库 · 更新于 2026-10-17 21:15</p>
+      <p>扫描了 6 个仓库 · 更新于 2026-10-17 21:31</p>
     </div>
   </div>
   <div class="top-actions">
-    <a class="btn" href="./">返回首页</a>
-    <a class="btn primary" href="https://github.com/angelevil-code/lbox-repo/edit/main/seed_sources.json" target="_blank">编辑源清单</a>
+    <a class="btn" href="./">首页</a>
+    <a class="btn primary" href="https://github.com/angelevil-code/lbox-repo/edit/main/seed_sources.json" target="_blank">编辑清单</a>
   </div>
 </header>
 
 <section class="sub-box">
   <div class="sub-row">
     <span class="sub-label">怎么加</span>
-    <span style="flex:1;color:var(--muted);font-size:12.5px">
+    <span style="flex:1;min-width:0;color:var(--muted);font-size:12.5px;line-height:1.7;overflow-wrap:anywhere">
       点「加入源池」→ GitHub 表单已经填好了，直接点 <b>Submit new issue</b> → 机器人自动检测并加入，1 分钟后生效
     </span>
   </div>
@@ -382,34 +442,11 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
     <article class="card">
       <div class="card-top">
         <span class="status-dot ok"></span>
-        <h3 class="card-title">18</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>814 个仓</span><span class="sep">·</span><span>138ms</span>
-        <span class="sep">·</span><span>kukuqi666/TVboxOSC</span>
-        <span class="sep">·</span><span>★298</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/TVBox-18-main/18.json">https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/TVBox-18-main/18.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+18&body=https%3A%2F%2Fraw.githubusercontent.com%2Fkukuqi666%2FTVboxOSC%2Fmain%2Fwebsite%2FTVBox-18-main%2F18.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Akukuqi666%2FTVboxOSC%0A%E5%86%85%E5%AE%B9%EF%BC%9A814+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;18&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/TVBox-18-main/18.json&quot;,
-  &quot;origin&quot;: &quot;github/kukuqi666&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/TVBox-18-main/18.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
         <h3 class="card-title">raw</h3>
         <span class="badge book">书源</span>
       </div>
       <div class="card-meta">
-        <span>550 条书源</span><span class="sep">·</span><span>517ms</span>
+        <span>550 条书源</span><span class="sep">·</span><span>1415ms</span>
         <span class="sep">·</span><span>tickmao/Novel</span>
         <span class="sep">·</span><span>★1967</span>
       </div>
@@ -428,34 +465,11 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
     <article class="card">
       <div class="card-top">
         <span class="status-dot ok"></span>
-        <h3 class="card-title">单仓聚合</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>517 个站点</span><span class="sep">·</span><span>155ms</span>
-        <span class="sep">·</span><span>Lightconer/tvbox-ysc-config</span>
-        <span class="sep">·</span><span>★130</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json">https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88&body=https%3A%2F%2Fraw.githubusercontent.com%2FLightconer%2Ftvbox-ysc-config%2Fmain%2Foutput%2F%25E5%258D%2595%25E4%25BB%2593%25E8%2581%259A%25E5%2590%2588.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9ALightconer%2Ftvbox-ysc-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A517+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;单仓聚合&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json&quot;,
-  &quot;origin&quot;: &quot;github/Lightconer&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/%E5%8D%95%E4%BB%93%E8%81%9A%E5%90%88.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
         <h3 class="card-title">full</h3>
         <span class="badge book">书源</span>
       </div>
       <div class="card-meta">
-        <span>194 条书源</span><span class="sep">·</span><span>166ms</span>
+        <span>194 条书源</span><span class="sep">·</span><span>4754ms</span>
         <span class="sep">·</span><span>tickmao/Novel</span>
         <span class="sep">·</span><span>★1967</span>
       </div>
@@ -478,7 +492,7 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
         <span class="badge tvbox">TVBox</span>
       </div>
       <div class="card-meta">
-        <span>139 个站点</span><span class="sep">·</span><span>447ms</span>
+        <span>139 个站点</span><span class="sep">·</span><span>1331ms</span>
         <span class="sep">·</span><span>cluntop/tvbox</span>
         <span class="sep">·</span><span>★576</span>
       </div>
@@ -501,9 +515,9 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
         <span class="badge tvbox">TVBox</span>
       </div>
       <div class="card-meta">
-        <span>105 个站点</span><span class="sep">·</span><span>380ms</span>
+        <span>105 个站点</span><span class="sep">·</span><span>837ms</span>
         <span class="sep">·</span><span>qist/tvbox</span>
-        <span class="sep">·</span><span>★12052</span>
+        <span class="sep">·</span><span>★12054</span>
       </div>
       <div class="card-url" title="https://raw.githubusercontent.com/qist/tvbox/master/xiaosa/api.json">https://raw.githubusercontent.com/qist/tvbox/master/xiaosa/api.json</div>
       <div class="card-actions">
@@ -524,7 +538,7 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
         <span class="badge tvbox">TVBox</span>
       </div>
       <div class="card-meta">
-        <span>105 个站点</span><span class="sep">·</span><span>116ms</span>
+        <span>105 个站点</span><span class="sep">·</span><span>844ms</span>
         <span class="sep">·</span><span>ne7359/tvurl</span>
         <span class="sep">·</span><span>★290</span>
       </div>
@@ -543,195 +557,11 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
     <article class="card">
       <div class="card-top">
         <span class="status-dot ok"></span>
-        <h3 class="card-title">legado-comic-sources-merged</h3>
-        <span class="badge book">书源</span>
-      </div>
-      <div class="card-meta">
-        <span>104 条书源</span><span class="sep">·</span><span>171ms</span>
-        <span class="sep">·</span><span>lin686/legado-comic-sources</span>
-        <span class="sep">·</span><span>★1</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/lin686/legado-comic-sources/main/legado-comic-sources-merged.json">https://raw.githubusercontent.com/lin686/legado-comic-sources/main/legado-comic-sources-merged.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+legado-comic-sources-merged&body=https%3A%2F%2Fraw.githubusercontent.com%2Flin686%2Flegado-comic-sources%2Fmain%2Flegado-comic-sources-merged.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Abook%0A%E6%9D%A5%E6%BA%90%EF%BC%9Alin686%2Flegado-comic-sources%0A%E5%86%85%E5%AE%B9%EF%BC%9A104+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;book&quot;,
-  &quot;name&quot;: &quot;legado-comic-sources-merged&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/lin686/legado-comic-sources/main/legado-comic-sources-merged.json&quot;,
-  &quot;origin&quot;: &quot;github/lin686&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/lin686/legado-comic-sources/main/legado-comic-sources-merged.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">legado-comic-sources</h3>
-        <span class="badge book">书源</span>
-      </div>
-      <div class="card-meta">
-        <span>102 条书源</span><span class="sep">·</span><span>449ms</span>
-        <span class="sep">·</span><span>lin686/legado-comic-sources</span>
-        <span class="sep">·</span><span>★1</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/lin686/legado-comic-sources/main/legado-comic-sources.json">https://raw.githubusercontent.com/lin686/legado-comic-sources/main/legado-comic-sources.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+legado-comic-sources&body=https%3A%2F%2Fraw.githubusercontent.com%2Flin686%2Flegado-comic-sources%2Fmain%2Flegado-comic-sources.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Abook%0A%E6%9D%A5%E6%BA%90%EF%BC%9Alin686%2Flegado-comic-sources%0A%E5%86%85%E5%AE%B9%EF%BC%9A102+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;book&quot;,
-  &quot;name&quot;: &quot;legado-comic-sources&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/lin686/legado-comic-sources/main/legado-comic-sources.json&quot;,
-  &quot;origin&quot;: &quot;github/lin686&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/lin686/legado-comic-sources/main/legado-comic-sources.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">R18</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>101 个站点</span><span class="sep">·</span><span>107ms</span>
-        <span class="sep">·</span><span>kukuqi666/TVboxOSC</span>
-        <span class="sep">·</span><span>★298</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/R18.json">https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/R18.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+R18&body=https%3A%2F%2Fraw.githubusercontent.com%2Fkukuqi666%2FTVboxOSC%2Fmain%2Fwebsite%2Ftvbox%2FR18.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Akukuqi666%2FTVboxOSC%0A%E5%86%85%E5%AE%B9%EF%BC%9A101+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;R18&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/R18.json&quot;,
-  &quot;origin&quot;: &quot;github/kukuqi666&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/R18.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">影视_api</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>84 个站点</span><span class="sep">·</span><span>145ms</span>
-        <span class="sep">·</span><span>adminouyang/231006</span>
-        <span class="sep">·</span><span>★253</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json">https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+%E5%BD%B1%E8%A7%86_api&body=https%3A%2F%2Fraw.githubusercontent.com%2Fadminouyang%2F231006%2Fmain%2Ftvbox%2FPizazzGY%2F%25E5%25BD%25B1%25E8%25A7%2586_api.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Aadminouyang%2F231006%0A%E5%86%85%E5%AE%B9%EF%BC%9A84+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;影视_api&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json&quot;,
-  &quot;origin&quot;: &quot;github/adminouyang&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E5%BD%B1%E8%A7%86_api.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">4k</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>53 个站点</span><span class="sep">·</span><span>108ms</span>
-        <span class="sep">·</span><span>Lightconer/tvbox-ysc-config</span>
-        <span class="sep">·</span><span>★130</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json">https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+4k&body=https%3A%2F%2Fraw.githubusercontent.com%2FLightconer%2Ftvbox-ysc-config%2Fmain%2Foutput%2F4k.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9ALightconer%2Ftvbox-ysc-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A53+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;4k&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json&quot;,
-  &quot;origin&quot;: &quot;github/Lightconer&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">18cn</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>46 个站点</span><span class="sep">·</span><span>115ms</span>
-        <span class="sep">·</span><span>kukuqi666/TVboxOSC</span>
-        <span class="sep">·</span><span>★298</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/18cn.json">https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/18cn.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+18cn&body=https%3A%2F%2Fraw.githubusercontent.com%2Fkukuqi666%2FTVboxOSC%2Fmain%2Fwebsite%2Ftvbox%2F18cn.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Akukuqi666%2FTVboxOSC%0A%E5%86%85%E5%AE%B9%EF%BC%9A46+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;18cn&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/18cn.json&quot;,
-  &quot;origin&quot;: &quot;github/kukuqi666&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/18cn.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvboxconfig</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>33 个站点</span><span class="sep">·</span><span>114ms</span>
-        <span class="sep">·</span><span>hebijunge/tvbox-config</span>
-        <span class="sep">·</span><span>★19</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvboxconfig.json">https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvboxconfig.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvboxconfig&body=https%3A%2F%2Fraw.githubusercontent.com%2Fhebijunge%2Ftvbox-config%2Fmain%2Fraw%2Fvod%2Ftvboxconfig.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Ahebijunge%2Ftvbox-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A33+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvboxconfig&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvboxconfig.json&quot;,
-  &quot;origin&quot;: &quot;github/hebijunge&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvboxconfig.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">云盘_api</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>31 个站点</span><span class="sep">·</span><span>166ms</span>
-        <span class="sep">·</span><span>adminouyang/231006</span>
-        <span class="sep">·</span><span>★253</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json">https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+%E4%BA%91%E7%9B%98_api&body=https%3A%2F%2Fraw.githubusercontent.com%2Fadminouyang%2F231006%2Fmain%2Ftvbox%2FPizazzGY%2F%25E4%25BA%2591%25E7%259B%2598_api.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Aadminouyang%2F231006%0A%E5%86%85%E5%AE%B9%EF%BC%9A31+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;云盘_api&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json&quot;,
-  &quot;origin&quot;: &quot;github/adminouyang&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E4%BA%91%E7%9B%98_api.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
         <h3 class="card-title">aa</h3>
         <span class="badge tvbox">TVBox</span>
       </div>
       <div class="card-meta">
-        <span>29 个站点</span><span class="sep">·</span><span>123ms</span>
+        <span>29 个站点</span><span class="sep">·</span><span>1151ms</span>
         <span class="sep">·</span><span>cluntop/tvbox</span>
         <span class="sep">·</span><span>★576</span>
       </div>
@@ -754,9 +584,9 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
         <span class="badge tvbox">TVBox</span>
       </div>
       <div class="card-meta">
-        <span>28 个站点</span><span class="sep">·</span><span>108ms</span>
+        <span>28 个站点</span><span class="sep">·</span><span>841ms</span>
         <span class="sep">·</span><span>qist/tvbox</span>
-        <span class="sep">·</span><span>★12052</span>
+        <span class="sep">·</span><span>★12054</span>
       </div>
       <div class="card-url" title="https://raw.githubusercontent.com/qist/tvbox/master/cat/tjs/tv_config.json">https://raw.githubusercontent.com/qist/tvbox/master/cat/tjs/tv_config.json</div>
       <div class="card-actions">
@@ -777,7 +607,7 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
         <span class="badge tvbox">TVBox</span>
       </div>
       <div class="card-meta">
-        <span>28 个站点</span><span class="sep">·</span><span>102ms</span>
+        <span>28 个站点</span><span class="sep">·</span><span>895ms</span>
         <span class="sep">·</span><span>ne7359/tvurl</span>
         <span class="sep">·</span><span>★290</span>
       </div>
@@ -796,34 +626,11 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
     <article class="card">
       <div class="card-top">
         <span class="status-dot ok"></span>
-        <h3 class="card-title">磁力_api</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>22 个站点</span><span class="sep">·</span><span>141ms</span>
-        <span class="sep">·</span><span>adminouyang/231006</span>
-        <span class="sep">·</span><span>★253</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json">https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+%E7%A3%81%E5%8A%9B_api&body=https%3A%2F%2Fraw.githubusercontent.com%2Fadminouyang%2F231006%2Fmain%2Ftvbox%2FPizazzGY%2F%25E7%25A3%2581%25E5%258A%259B_api.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Aadminouyang%2F231006%0A%E5%86%85%E5%AE%B9%EF%BC%9A22+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;磁力_api&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json&quot;,
-  &quot;origin&quot;: &quot;github/adminouyang&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/adminouyang/231006/main/tvbox/PizazzGY/%E7%A3%81%E5%8A%9B_api.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
         <h3 class="card-title">sources</h3>
         <span class="badge book">书源</span>
       </div>
       <div class="card-meta">
-        <span>21 条书源</span><span class="sep">·</span><span>154ms</span>
+        <span>21 条书源</span><span class="sep">·</span><span>1332ms</span>
         <span class="sep">·</span><span>cluntop/tvbox</span>
         <span class="sep">·</span><span>★576</span>
       </div>
@@ -837,397 +644,6 @@ a.mini.add:hover { background: rgba(34,197,94,.18); color: #a9f2c0; border-color
   &quot;origin&quot;: &quot;github/cluntop&quot;
 }'>复制配置</button>
         <button class="mini" data-copy="https://raw.githubusercontent.com/cluntop/tvbox/main/lib/sources.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">multi</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>19 个仓</span><span class="sep">·</span><span>115ms</span>
-        <span class="sep">·</span><span>ouyushan/tvbox-cfg</span>
-        <span class="sep">·</span><span>★5</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/ouyushan/tvbox-cfg/main/config/multi.json">https://raw.githubusercontent.com/ouyushan/tvbox-cfg/main/config/multi.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+multi&body=https%3A%2F%2Fraw.githubusercontent.com%2Fouyushan%2Ftvbox-cfg%2Fmain%2Fconfig%2Fmulti.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Aouyushan%2Ftvbox-cfg%0A%E5%86%85%E5%AE%B9%EF%BC%9A19+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;multi&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/ouyushan/tvbox-cfg/main/config/multi.json&quot;,
-  &quot;origin&quot;: &quot;github/ouyushan&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/ouyushan/tvbox-cfg/main/config/multi.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvbox</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>18 个站点</span><span class="sep">·</span><span>113ms</span>
-        <span class="sep">·</span><span>larry-biu/tvbox-config</span>
-        <span class="sep">·</span><span>★3</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/larry-biu/tvbox-config/main/tvbox.json">https://raw.githubusercontent.com/larry-biu/tvbox-config/main/tvbox.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvbox&body=https%3A%2F%2Fraw.githubusercontent.com%2Flarry-biu%2Ftvbox-config%2Fmain%2Ftvbox.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Alarry-biu%2Ftvbox-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A18+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvbox&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/larry-biu/tvbox-config/main/tvbox.json&quot;,
-  &quot;origin&quot;: &quot;github/larry-biu&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/larry-biu/tvbox-config/main/tvbox.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">config</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>18 个站点</span><span class="sep">·</span><span>113ms</span>
-        <span class="sep">·</span><span>larry-biu/tvbox-config</span>
-        <span class="sep">·</span><span>★3</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/larry-biu/tvbox-config/main/config.json">https://raw.githubusercontent.com/larry-biu/tvbox-config/main/config.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+config&body=https%3A%2F%2Fraw.githubusercontent.com%2Flarry-biu%2Ftvbox-config%2Fmain%2Fconfig.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Alarry-biu%2Ftvbox-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A18+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;config&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/larry-biu/tvbox-config/main/config.json&quot;,
-  &quot;origin&quot;: &quot;github/larry-biu&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/larry-biu/tvbox-config/main/config.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvbox-pages</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>18 个站点</span><span class="sep">·</span><span>117ms</span>
-        <span class="sep">·</span><span>larry-biu/tvbox-config</span>
-        <span class="sep">·</span><span>★3</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/larry-biu/tvbox-config/main/tvbox-pages.json">https://raw.githubusercontent.com/larry-biu/tvbox-config/main/tvbox-pages.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvbox-pages&body=https%3A%2F%2Fraw.githubusercontent.com%2Flarry-biu%2Ftvbox-config%2Fmain%2Ftvbox-pages.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Alarry-biu%2Ftvbox-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A18+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvbox-pages&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/larry-biu/tvbox-config/main/tvbox-pages.json&quot;,
-  &quot;origin&quot;: &quot;github/larry-biu&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/larry-biu/tvbox-config/main/tvbox-pages.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">config-pages</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>18 个站点</span><span class="sep">·</span><span>124ms</span>
-        <span class="sep">·</span><span>larry-biu/tvbox-config</span>
-        <span class="sep">·</span><span>★3</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/larry-biu/tvbox-config/main/config-pages.json">https://raw.githubusercontent.com/larry-biu/tvbox-config/main/config-pages.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+config-pages&body=https%3A%2F%2Fraw.githubusercontent.com%2Flarry-biu%2Ftvbox-config%2Fmain%2Fconfig-pages.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Alarry-biu%2Ftvbox-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A18+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;config-pages&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/larry-biu/tvbox-config/main/config-pages.json&quot;,
-  &quot;origin&quot;: &quot;github/larry-biu&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/larry-biu/tvbox-config/main/config-pages.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvbox</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>16 个站点</span><span class="sep">·</span><span>137ms</span>
-        <span class="sep">·</span><span>1771245847/TvBox</span>
-        <span class="sep">·</span><span>★170</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/1771245847/TvBox/master/tvbox.json">https://raw.githubusercontent.com/1771245847/TvBox/master/tvbox.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvbox&body=https%3A%2F%2Fraw.githubusercontent.com%2F1771245847%2FTvBox%2Fmaster%2Ftvbox.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9A1771245847%2FTvBox%0A%E5%86%85%E5%AE%B9%EF%BC%9A16+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvbox&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/1771245847/TvBox/master/tvbox.json&quot;,
-  &quot;origin&quot;: &quot;github/1771245847&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/1771245847/TvBox/master/tvbox.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">cyys</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>15 个站点</span><span class="sep">·</span><span>146ms</span>
-        <span class="sep">·</span><span>1771245847/TvBox</span>
-        <span class="sep">·</span><span>★170</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/1771245847/TvBox/master/cyys.json">https://raw.githubusercontent.com/1771245847/TvBox/master/cyys.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+cyys&body=https%3A%2F%2Fraw.githubusercontent.com%2F1771245847%2FTvBox%2Fmaster%2Fcyys.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9A1771245847%2FTvBox%0A%E5%86%85%E5%AE%B9%EF%BC%9A15+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;cyys&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/1771245847/TvBox/master/cyys.json&quot;,
-  &quot;origin&quot;: &quot;github/1771245847&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/1771245847/TvBox/master/cyys.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">ouge</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>12 个站点</span><span class="sep">·</span><span>103ms</span>
-        <span class="sep">·</span><span>Lightconer/tvbox-ysc-config</span>
-        <span class="sep">·</span><span>★130</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json">https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+ouge&body=https%3A%2F%2Fraw.githubusercontent.com%2FLightconer%2Ftvbox-ysc-config%2Fmain%2Foutput%2Fouge.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9ALightconer%2Ftvbox-ysc-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A12+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;ouge&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json&quot;,
-  &quot;origin&quot;: &quot;github/Lightconer&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/ouge.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">source</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>11 个仓</span><span class="sep">·</span><span>152ms</span>
-        <span class="sep">·</span><span>4yt1k/m3u-autoupdate</span>
-        <span class="sep">·</span><span>★40</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/4yt1k/m3u-autoupdate/master/source.json">https://raw.githubusercontent.com/4yt1k/m3u-autoupdate/master/source.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+source&body=https%3A%2F%2Fraw.githubusercontent.com%2F4yt1k%2Fm3u-autoupdate%2Fmaster%2Fsource.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9A4yt1k%2Fm3u-autoupdate%0A%E5%86%85%E5%AE%B9%EF%BC%9A11+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;source&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/4yt1k/m3u-autoupdate/master/source.json&quot;,
-  &quot;origin&quot;: &quot;github/4yt1k&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/4yt1k/m3u-autoupdate/master/source.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvbox_spiders_config~0ddabc</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>10 个站点</span><span class="sep">·</span><span>133ms</span>
-        <span class="sep">·</span><span>hebijunge/tvbox-config</span>
-        <span class="sep">·</span><span>★19</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config~0ddabc.json">https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config~0ddabc.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvbox_spiders_config~0ddabc&body=https%3A%2F%2Fraw.githubusercontent.com%2Fhebijunge%2Ftvbox-config%2Fmain%2Fraw%2Fvod%2Ftvbox_spiders_config~0ddabc.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Ahebijunge%2Ftvbox-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A10+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvbox_spiders_config~0ddabc&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config~0ddabc.json&quot;,
-  &quot;origin&quot;: &quot;github/hebijunge&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config~0ddabc.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvbox_spiders_config~11a346</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>10 个站点</span><span class="sep">·</span><span>145ms</span>
-        <span class="sep">·</span><span>hebijunge/tvbox-config</span>
-        <span class="sep">·</span><span>★19</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config~11a346.json">https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config~11a346.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvbox_spiders_config~11a346&body=https%3A%2F%2Fraw.githubusercontent.com%2Fhebijunge%2Ftvbox-config%2Fmain%2Fraw%2Fvod%2Ftvbox_spiders_config~11a346.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Ahebijunge%2Ftvbox-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A10+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvbox_spiders_config~11a346&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config~11a346.json&quot;,
-  &quot;origin&quot;: &quot;github/hebijunge&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config~11a346.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvbox_spiders_config</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>9 个站点</span><span class="sep">·</span><span>107ms</span>
-        <span class="sep">·</span><span>hebijunge/tvbox-config</span>
-        <span class="sep">·</span><span>★19</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config.json">https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvbox_spiders_config&body=https%3A%2F%2Fraw.githubusercontent.com%2Fhebijunge%2Ftvbox-config%2Fmain%2Fraw%2Fvod%2Ftvbox_spiders_config.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Ahebijunge%2Ftvbox-config%0A%E5%86%85%E5%AE%B9%EF%BC%9A9+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvbox_spiders_config&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config.json&quot;,
-  &quot;origin&quot;: &quot;github/hebijunge&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/hebijunge/tvbox-config/main/raw/vod/tvbox_spiders_config.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvbox</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>8 个站点</span><span class="sep">·</span><span>114ms</span>
-        <span class="sep">·</span><span>jiusanzhou/tvbox</span>
-        <span class="sep">·</span><span>★11</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/jiusanzhou/tvbox/main/tvbox.json">https://raw.githubusercontent.com/jiusanzhou/tvbox/main/tvbox.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvbox&body=https%3A%2F%2Fraw.githubusercontent.com%2Fjiusanzhou%2Ftvbox%2Fmain%2Ftvbox.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Ajiusanzhou%2Ftvbox%0A%E5%86%85%E5%AE%B9%EF%BC%9A8+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvbox&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/jiusanzhou/tvbox/main/tvbox.json&quot;,
-  &quot;origin&quot;: &quot;github/jiusanzhou&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/jiusanzhou/tvbox/main/tvbox.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">tvbox</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>8 个站点</span><span class="sep">·</span><span>113ms</span>
-        <span class="sep">·</span><span>jiusanzhou/tvbox</span>
-        <span class="sep">·</span><span>★11</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/jiusanzhou/tvbox/main/docs/tvbox.json">https://raw.githubusercontent.com/jiusanzhou/tvbox/main/docs/tvbox.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+tvbox&body=https%3A%2F%2Fraw.githubusercontent.com%2Fjiusanzhou%2Ftvbox%2Fmain%2Fdocs%2Ftvbox.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Ajiusanzhou%2Ftvbox%0A%E5%86%85%E5%AE%B9%EF%BC%9A8+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;tvbox&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/jiusanzhou/tvbox/main/docs/tvbox.json&quot;,
-  &quot;origin&quot;: &quot;github/jiusanzhou&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/jiusanzhou/tvbox/main/docs/tvbox.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">kanju</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>1 个站点</span><span class="sep">·</span><span>90ms</span>
-        <span class="sep">·</span><span>z2004y/source</span>
-        <span class="sep">·</span><span>★3</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/z2004y/source/main/js/kanju.json">https://raw.githubusercontent.com/z2004y/source/main/js/kanju.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+kanju&body=https%3A%2F%2Fraw.githubusercontent.com%2Fz2004y%2Fsource%2Fmain%2Fjs%2Fkanju.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Az2004y%2Fsource%0A%E5%86%85%E5%AE%B9%EF%BC%9A1+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;kanju&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/z2004y/source/main/js/kanju.json&quot;,
-  &quot;origin&quot;: &quot;github/z2004y&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/z2004y/source/main/js/kanju.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">kanju</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>1 个站点</span><span class="sep">·</span><span>148ms</span>
-        <span class="sep">·</span><span>z2004y/source</span>
-        <span class="sep">·</span><span>★3</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/z2004y/source/main/python/kanju.json">https://raw.githubusercontent.com/z2004y/source/main/python/kanju.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+kanju&body=https%3A%2F%2Fraw.githubusercontent.com%2Fz2004y%2Fsource%2Fmain%2Fpython%2Fkanju.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Az2004y%2Fsource%0A%E5%86%85%E5%AE%B9%EF%BC%9A1+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;kanju&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/z2004y/source/main/python/kanju.json&quot;,
-  &quot;origin&quot;: &quot;github/z2004y&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/z2004y/source/main/python/kanju.json">复制地址</button>
-      </div>
-    </article>
-    <article class="card">
-      <div class="card-top">
-        <span class="status-dot ok"></span>
-        <h3 class="card-title">kanju_jar</h3>
-        <span class="badge tvbox">TVBox</span>
-      </div>
-      <div class="card-meta">
-        <span>1 个站点</span><span class="sep">·</span><span>152ms</span>
-        <span class="sep">·</span><span>z2004y/source</span>
-        <span class="sep">·</span><span>★3</span>
-      </div>
-      <div class="card-url" title="https://raw.githubusercontent.com/z2004y/source/main/java/kanju_jar.json">https://raw.githubusercontent.com/z2004y/source/main/java/kanju_jar.json</div>
-      <div class="card-actions">
-        <a class="mini add" href="https://github.com/angelevil-code/lbox-repo/issues/new?title=%5Badd%5D+kanju_jar&body=https%3A%2F%2Fraw.githubusercontent.com%2Fz2004y%2Fsource%2Fmain%2Fjava%2Fkanju_jar.json%0A%0A%E7%B1%BB%E5%9E%8B%EF%BC%9Atvbox%0A%E6%9D%A5%E6%BA%90%EF%BC%9Az2004y%2Fsource%0A%E5%86%85%E5%AE%B9%EF%BC%9A1+%E9%A1%B9%0A" target="_blank" rel="noopener">加入源池</a>
-        <button class="mini" data-copy='{
-  &quot;type&quot;: &quot;tvbox&quot;,
-  &quot;name&quot;: &quot;kanju_jar&quot;,
-  &quot;url&quot;: &quot;https://raw.githubusercontent.com/z2004y/source/main/java/kanju_jar.json&quot;,
-  &quot;origin&quot;: &quot;github/z2004y&quot;
-}'>复制配置</button>
-        <button class="mini" data-copy="https://raw.githubusercontent.com/z2004y/source/main/java/kanju_jar.json">复制地址</button>
       </div>
     </article>
 </main>
