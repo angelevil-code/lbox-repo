@@ -1,6 +1,6 @@
 {
- "built_at": 1792238600,
- "built_at_text": "2026-10-17 20:03",
+ "built_at": 1792238920,
+ "built_at_text": "2026-10-17 20:08",
  "stats": {
   "book": {
    "total": 4,
@@ -14,7 +14,7 @@
    "dead": 0,
    "items": 295
   },
-  "last_checked": 1792238600
+  "last_checked": 1792238920
  },
  "sources": [
   {
@@ -26,10 +26,10 @@
    "origin": "github/qist",
    "count": 135,
    "status": "ok",
-   "latency": 186,
+   "latency": 198,
    "error": "",
-   "checked_at": 1792238600,
-   "created_at": 1792238599
+   "checked_at": 1792238920,
+   "created_at": 1792238919
   },
   {
    "id": 5,
@@ -40,10 +40,10 @@
    "origin": "github/gaotianliuyun",
    "count": 86,
    "status": "ok",
-   "latency": 213,
+   "latency": 186,
    "error": "",
-   "checked_at": 1792238600,
-   "created_at": 1792238599
+   "checked_at": 1792238920,
+   "created_at": 1792238919
   },
   {
    "id": 8,
@@ -54,10 +54,10 @@
    "origin": "github/CandyMuj",
    "count": 60,
    "status": "ok",
-   "latency": 165,
+   "latency": 255,
    "error": "",
-   "checked_at": 1792238600,
-   "created_at": 1792238599
+   "checked_at": 1792238920,
+   "created_at": 1792238919
   },
   {
    "id": 1,
@@ -68,10 +68,10 @@
    "origin": "github/XIU2/Yuedu",
    "count": 22,
    "status": "ok",
-   "latency": 196,
+   "latency": 191,
    "error": "",
-   "checked_at": 1792238600,
-   "created_at": 1792238599
+   "checked_at": 1792238920,
+   "created_at": 1792238919
   },
   {
    "id": 7,
@@ -82,10 +82,10 @@
    "origin": "github/noimank",
    "count": 14,
    "status": "ok",
-   "latency": 166,
+   "latency": 216,
    "error": "",
-   "checked_at": 1792238600,
-   "created_at": 1792238599
+   "checked_at": 1792238920,
+   "created_at": 1792238919
   },
   {
    "id": 2,
@@ -96,10 +96,10 @@
    "origin": "github/CandyMuj",
    "count": 2,
    "status": "ok",
-   "latency": 160,
+   "latency": 193,
    "error": "",
-   "checked_at": 1792238600,
-   "created_at": 1792238599
+   "checked_at": 1792238920,
+   "created_at": 1792238919
   },
   {
    "id": 3,
@@ -110,10 +110,10 @@
    "origin": "github/jiwangyihao",
    "count": 2,
    "status": "ok",
-   "latency": 217,
+   "latency": 180,
    "error": "",
-   "checked_at": 1792238600,
-   "created_at": 1792238599
+   "checked_at": 1792238920,
+   "created_at": 1792238919
   },
   {
    "id": 4,
@@ -124,10 +124,10 @@
    "origin": "github/jiwangyihao",
    "count": 1,
    "status": "ok",
-   "latency": 187,
+   "latency": 387,
    "error": "",
-   "checked_at": 1792238600,
-   "created_at": 1792238599
+   "checked_at": 1792238920,
+   "created_at": 1792238919
   }
  ],
  "book_count": 27,
