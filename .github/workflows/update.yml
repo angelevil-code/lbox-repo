@@ -9,6 +9,8 @@ on:
     paths:
       - "seed_sources.json"
       - "server.py"
+      - "discover.py"
+      - ".github/workflows/update.yml"
 
 permissions:
   contents: write

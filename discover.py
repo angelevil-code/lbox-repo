@@ -298,7 +298,7 @@ def main():
 
     t0 = time.time()
     cands, scanned = discover(args.repos)
-    built_at = time.strftime("%Y-%m-%d %H:%M")
+    built_at = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y-%m-%d %H:%M")
 
     payload = {
         "generated_at": int(time.time()),
