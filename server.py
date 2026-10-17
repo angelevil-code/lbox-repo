@@ -378,9 +378,12 @@ def export_tvbox():
 # ---------------------------------------------------------------- 静态构建
 
 def _fmt_time(ts):
+    """统一按北京时间显示（CI 机器是 UTC，直接格式化会差 8 小时）"""
     if not ts:
         return "—"
-    return time.strftime("%Y-%m-%d %H:%M", time.localtime(ts))
+    from datetime import datetime, timedelta, timezone
+    cst = timezone(timedelta(hours=8))
+    return datetime.fromtimestamp(ts, cst).strftime("%Y-%m-%d %H:%M")
 
 
 def _static_card(src):
