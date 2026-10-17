@@ -1,7 +1,7 @@
 {
  "keyword": "庆余年",
  "total": 12,
- "playable": 2,
+ "playable": 0,
  "results": [
   {
    "name": "量子",
@@ -9,11 +9,11 @@
    "from": "qist 0825",
    "search": true,
    "detail": true,
-   "play": true,
-   "why": "m3u8",
+   "play": false,
+   "why": "HTTP 404",
    "media": "https://v.lzcdn28.com/20250923/2326_a9bf234a/index.m3u8",
    "ep": "第01集",
-   "ms": 967
+   "ms": 1041
   },
   {
    "name": "非凡",
@@ -25,7 +25,7 @@
    "why": "HTTP 403",
    "media": "https://vip.ffzy-online2.com/share/116b896114ff71245852cace1f9f69c5",
    "ep": "第01集",
-   "ms": 2325
+   "ms": 1617
   },
   {
    "name": "haiwaikan",
@@ -34,7 +34,7 @@
    "search": false,
    "detail": false,
    "play": false,
-   "why": "接口失效(返回网页)",
+   "why": "连接失败",
    "media": "",
    "ep": "",
    "ms": 0
@@ -45,11 +45,11 @@
    "from": "qist 0825",
    "search": true,
    "detail": true,
-   "play": true,
-   "why": "m3u8",
+   "play": false,
+   "why": "HTTP 404",
    "media": "https://s3.bfllvip.com/video/qingyuniandiyiji/136c9bdde962/index.m3u8",
    "ep": "第1集",
-   "ms": 1567
+   "ms": 547
   },
   {
    "name": "索尼",
@@ -118,10 +118,10 @@
    "search": true,
    "detail": true,
    "play": false,
-   "why": "连接失败",
+   "why": "HTTP 403",
    "media": "https://vod6.bdzybf11.com/20250125/1cg3Vq0l/index.m3u8",
    "ep": "第01集",
-   "ms": 409
+   "ms": 1150
   },
   {
    "name": "量子",
