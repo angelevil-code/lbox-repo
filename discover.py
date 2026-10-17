@@ -223,6 +223,53 @@ def discover(max_repos=MAX_REPOS):
 
 REPO_SLUG = "angelevil-code/lbox-repo"
 
+SEEN_FILE = "seen.json"
+NEW_WINDOW = 3 * 86400      # 3 天内首次出现 → NEW
+REBORN_GAP = 3 * 86400      # 断档 3 天以上又出现 → 回归
+SEEN_TTL = 180 * 86400      # 半年没出现就从记录里清掉
+
+
+def load_seen(outdir):
+    p = os.path.join(outdir, SEEN_FILE)
+    if not os.path.exists(p):
+        return {}
+    try:
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def stamp_seen(seen, cands, now):
+    """给每个候选打上「首次出现时间」，并判断 NEW / 回归
+
+    借鉴 Dependabot 告警的数据模型：created_at(首次发现) + updated_at(最后更新)，
+    而不是只存「当前状态」——只存当前状态就永远说不清「什么是新的」。
+    另外记录断档天数：消失一阵又回来的源，往往比新源更值得看（说明它被修好了）。
+    """
+    for c in cands:
+        url = c["url"]
+        rec = seen.get(url)
+        if rec:
+            gap = now - rec.get("last_seen", now)
+            c["gap_days"] = gap // 86400
+            c["reborn"] = gap >= REBORN_GAP
+            rec["last_seen"] = now
+            rec["times"] = rec.get("times", 1) + 1
+        else:
+            rec = {"first_seen": now, "last_seen": now, "times": 1}
+            seen[url] = rec
+            c["gap_days"] = 0
+            c["reborn"] = False
+        c["first_seen"] = rec["first_seen"]
+        c["times"] = rec["times"]
+        c["is_new"] = (now - rec["first_seen"]) <= NEW_WINDOW
+
+    for url in list(seen):
+        if now - seen[url].get("last_seen", 0) > SEEN_TTL:
+            del seen[url]
+    return seen
+
 
 def build_issue_url(c):
     """生成预填好的 GitHub 新建 issue 链接，点一下就能提交"""
@@ -234,7 +281,9 @@ def build_issue_url(c):
     return f"https://github.com/{REPO_SLUG}/issues/new?{q}"
 
 
-def render_page(cands, scanned, built_at):
+def render_page(cands, scanned, built_at, now=0):
+    new_cnt = sum(1 for c in cands if c.get("is_new"))
+    reborn_cnt = sum(1 for c in cands if c.get("reborn"))
     css_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "style.css")
     css = ""
     if os.path.exists(css_file):
@@ -259,15 +308,24 @@ def render_page(cands, scanned, built_at):
             dup_html = (f"<span class='sep'>·</span>"
                         f"<span class='err'>与「{html.escape(c.get('dup_with', ''))}」"
                         f"重叠 {dup}%</span>")
+        if c.get("is_new"):
+            age_txt, new_badge = "首次出现", '<span class="badge new">NEW</span>'
+        elif c.get("reborn"):
+            age_txt = f"断档 {c.get('gap_days', 0)} 天后回归"
+            new_badge = '<span class="badge reborn">回归</span>'
+        else:
+            age_txt, new_badge = f"已出现 {c.get('times', 1)} 次", ""
         return f"""
     <article class="card">
       <div class="card-top">
         <span class="status-dot ok"></span>
         <h3 class="card-title">{html.escape(c['name'])}</h3>
+        {new_badge}
         <span class="badge {c['type']}">{typ}</span>
       </div>
       <div class="card-meta">
         <span>{unit}</span><span class="sep">·</span><span>{c['latency']}ms</span>
+        <span class="sep">·</span><span>{age_txt}</span>
         <span class="sep">·</span><span>{html.escape(c['repo'])}</span>
         <span class="sep">·</span><span>★{c['stars']}</span>{dup_html}
       </div>
@@ -299,6 +357,8 @@ def render_page(cands, scanned, built_at):
 a.mini {{ text-decoration: none; display: inline-flex; align-items: center; }}
 a.mini.add {{ color: #7ee0a1; border-color: rgba(34,197,94,.38); background: rgba(34,197,94,.10); }}
 a.mini.add:hover {{ background: rgba(34,197,94,.18); color: #a9f2c0; border-color: rgba(34,197,94,.6); }}
+.badge.new {{ color: #7ee0a1; border-color: rgba(34,197,94,.55); background: rgba(34,197,94,.16); font-weight: 500; }}
+.badge.reborn {{ color: #f0c674; border-color: rgba(245,158,11,.5); background: rgba(245,158,11,.14); }}
 </style>
 </head>
 <body>
@@ -308,7 +368,7 @@ a.mini.add:hover {{ background: rgba(34,197,94,.18); color: #a9f2c0; border-colo
     <div class="logo">LB</div>
     <div class="brand-text">
       <h1>发现新源</h1>
-      <p>扫描了 {scanned} 个仓库 · 更新于 {built_at}</p>
+      <p>扫描 {scanned} 个仓库 · 新增 {new_cnt} 个{(' · 回归 ' + str(reborn_cnt) + ' 个') if reborn_cnt else ''} · 更新于 {built_at}</p>
     </div>
   </div>
   <div class="top-actions">
@@ -373,19 +433,33 @@ def main():
 
     t0 = time.time()
     cands, scanned = discover(args.repos)
+
+    now = int(time.time())
+    seen = stamp_seen(load_seen(outdir), cands, now)
+    # 排序：新出现的排最前，其次是回归的，最后按内容多少
+    cands.sort(key=lambda c: (not c["is_new"], not c.get("reborn"), -c["count"]))
+    new_cnt = sum(1 for c in cands if c["is_new"])
+    reborn_cnt = sum(1 for c in cands if c.get("reborn"))
+    print(f"[discover] NEW {new_cnt} 个 / 回归 {reborn_cnt} 个 / 老面孔 {len(cands)-new_cnt-reborn_cnt} 个")
+
     built_at = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y-%m-%d %H:%M")
 
+    with open(os.path.join(outdir, SEEN_FILE), "w", encoding="utf-8") as f:
+        json.dump(seen, f, ensure_ascii=False, indent=1)
+
     payload = {
-        "generated_at": int(time.time()),
+        "generated_at": now,
         "generated_at_text": built_at,
         "scanned_repos": scanned,
         "count": len(cands),
+        "new_count": new_cnt,
+        "reborn_count": reborn_cnt,
         "candidates": cands,
     }
     with open(os.path.join(outdir, "candidates.json"), "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
     with open(os.path.join(outdir, "discover.html"), "w", encoding="utf-8") as f:
-        f.write(render_page(cands, scanned, built_at))
+        f.write(render_page(cands, scanned, built_at, now))
 
     print(f"[discover] 完成，用时 {int(time.time()-t0)}s -> {outdir}/discover.html")
 
