@@ -37,7 +37,17 @@ jobs:
           git add docs
           if git diff --staged --quiet; then
             echo "本次没有变化，跳过提交"
-          else
-            git commit -m "chore: 更新源 $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git push
+            exit 0
           fi
+          git commit -m "chore: 更新源 $(date -u +'%Y-%m-%d %H:%M UTC')"
+          for i in 1 2 3; do
+            if git push; then
+              echo "推送成功"
+              exit 0
+            fi
+            echo "第 $i 次推送被拒，rebase 后重试"
+            git pull --rebase --autostash origin main || true
+            sleep 3
+          done
+          echo "推送最终失败"
+          exit 1
