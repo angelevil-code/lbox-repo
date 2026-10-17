@@ -1,0 +1,43 @@
+name: update-sources
+
+on:
+  schedule:
+    # UTC 20:00 = 北京时间次日 04:00
+    - cron: "0 20 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - "seed_sources.json"
+      - "server.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-sources
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 检测源并生成静态站
+        run: python server.py --build --out docs
+
+      - name: 提交结果
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          if git diff --staged --quiet; then
+            echo "本次没有变化，跳过提交"
+          else
+            git commit -m "chore: 更新源 $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

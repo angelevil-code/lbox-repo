@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LBOX 源仓库</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">LB</div>
+    <div class="brand-text">
+      <h1>LBOX 源仓库</h1>
+      <p>书源 · TVBox 配置 · 可用性检测</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button id="btn-check" class="btn primary">检测全部</button>
+    <button id="btn-add" class="btn">添加源</button>
+  </div>
+</header>
+
+<section class="stats">
+  <div class="stat">
+    <div class="stat-head"><span class="dot book"></span>书源</div>
+    <div class="stat-value"><b id="st-book-ok">0</b><span id="st-book-total">/ 0 可用</span></div>
+    <div class="stat-foot"><span id="st-book-items">0 条书源</span></div>
+  </div>
+  <div class="stat">
+    <div class="stat-head"><span class="dot tvbox"></span>TVBox 配置</div>
+    <div class="stat-value"><b id="st-tv-ok">0</b><span id="st-tv-total">/ 0 可用</span></div>
+    <div class="stat-foot"><span id="st-tv-items">0 个站点</span></div>
+  </div>
+  <div class="stat">
+    <div class="stat-head"><span class="dot time"></span>最后检测</div>
+    <div class="stat-value"><b id="st-last">—</b></div>
+    <div class="stat-foot"><span>点击「检测全部」刷新</span></div>
+  </div>
+</section>
+
+<section class="toolbar">
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-type="all">全部</button>
+    <button class="tab" data-type="book">书源</button>
+    <button class="tab" data-type="tvbox">TVBox</button>
+  </div>
+  <input id="search" class="search" type="search" placeholder="搜索名称 / 地址 / 来源" autocomplete="off">
+  <div class="spacer"></div>
+  <button class="btn ghost" id="btn-export-book">书源订阅地址</button>
+  <button class="btn ghost" id="btn-export-tvbox">TVBox 订阅地址</button>
+</section>
+
+<main id="list" class="grid"></main>
+
+<div id="empty" class="empty" hidden>
+  <p>还没有源</p>
+  <span>点右上角「添加源」，或编辑 seed_sources.json 后重启</span>
+</div>
+
+<dialog id="dlg" class="dlg">
+  <form id="add-form" method="dialog">
+    <h2>添加源</h2>
+    <label>类型
+      <select name="type">
+        <option value="book">书源（开源阅读）</option>
+        <option value="tvbox">TVBox 配置</option>
+      </select>
+    </label>
+    <label>名称
+      <input name="name" placeholder="随便起个名字，留空则用地址" autocomplete="off">
+    </label>
+    <label>地址
+      <input name="url" placeholder="https://..." required autocomplete="off">
+    </label>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="btn-cancel">取消</button>
+      <button type="submit" class="btn primary">添加</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" class="toast"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

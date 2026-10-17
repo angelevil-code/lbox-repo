@@ -1,0 +1,20 @@
+{
+ "urls": [
+  {
+   "url": "https://raw.githubusercontent.com/qist/tvbox/master/0825.json",
+   "name": "qist 0825"
+  },
+  {
+   "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/0821.json",
+   "name": "高天流云 0821"
+  },
+  {
+   "url": "https://raw.githubusercontent.com/CandyMuj/ResourceInterface/main/TVBox/candymuj.json",
+   "name": "CandyMuj TVBox"
+  },
+  {
+   "url": "https://raw.githubusercontent.com/noimank/tvbox/main/tvboxmuti.json",
+   "name": "noimank 多仓"
+  }
+ ]
+}

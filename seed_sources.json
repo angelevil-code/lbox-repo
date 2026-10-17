@@ -1,0 +1,53 @@
+{
+  "_comment": "种子源清单。首次启动自动导入；想加源直接改这里，或在前端点「添加源」。",
+  "sources": [
+    {
+      "type": "book",
+      "name": "XIU2 自用书源",
+      "url": "https://raw.githubusercontent.com/XIU2/Yuedu/master/shuyuan",
+      "origin": "github/XIU2/Yuedu"
+    },
+    {
+      "type": "book",
+      "name": "CandyMuj 书源",
+      "url": "https://raw.githubusercontent.com/CandyMuj/ResourceInterface/main/Legado/candymuj.json",
+      "origin": "github/CandyMuj"
+    },
+    {
+      "type": "book",
+      "name": "哔哩轻小说",
+      "url": "https://raw.githubusercontent.com/jiwangyihao/source-j-legado/main/bilinovel.json",
+      "origin": "github/jiwangyihao"
+    },
+    {
+      "type": "book",
+      "name": "ESJ Zone",
+      "url": "https://raw.githubusercontent.com/jiwangyihao/source-j-legado/main/esjzone.json",
+      "origin": "github/jiwangyihao"
+    },
+    {
+      "type": "tvbox",
+      "name": "高天流云 0821",
+      "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/0821.json",
+      "origin": "github/gaotianliuyun"
+    },
+    {
+      "type": "tvbox",
+      "name": "qist 0825",
+      "url": "https://raw.githubusercontent.com/qist/tvbox/master/0825.json",
+      "origin": "github/qist"
+    },
+    {
+      "type": "tvbox",
+      "name": "noimank 多仓",
+      "url": "https://raw.githubusercontent.com/noimank/tvbox/main/tvboxmuti.json",
+      "origin": "github/noimank"
+    },
+    {
+      "type": "tvbox",
+      "name": "CandyMuj TVBox",
+      "url": "https://raw.githubusercontent.com/CandyMuj/ResourceInterface/main/TVBox/candymuj.json",
+      "origin": "github/CandyMuj"
+    }
+  ]
+}

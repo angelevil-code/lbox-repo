@@ -1,0 +1,135 @@
+{
+ "built_at": 1792237597,
+ "built_at_text": "2026-10-17 19:46",
+ "stats": {
+  "book": {
+   "total": 4,
+   "ok": 4,
+   "dead": 0,
+   "items": 27
+  },
+  "tvbox": {
+   "total": 4,
+   "ok": 4,
+   "dead": 0,
+   "items": 295
+  },
+  "last_checked": 1792237595
+ },
+ "sources": [
+  {
+   "id": 6,
+   "type": "tvbox",
+   "kind": "tvbox",
+   "name": "qist 0825",
+   "url": "https://raw.githubusercontent.com/qist/tvbox/master/0825.json",
+   "origin": "github/qist",
+   "count": 135,
+   "status": "ok",
+   "latency": 2081,
+   "error": "",
+   "checked_at": 1792237595,
+   "created_at": 1792207222
+  },
+  {
+   "id": 5,
+   "type": "tvbox",
+   "kind": "tvbox",
+   "name": "高天流云 0821",
+   "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/0821.json",
+   "origin": "github/gaotianliuyun",
+   "count": 86,
+   "status": "ok",
+   "latency": 975,
+   "error": "",
+   "checked_at": 1792237595,
+   "created_at": 1792207222
+  },
+  {
+   "id": 8,
+   "type": "tvbox",
+   "kind": "tvbox",
+   "name": "CandyMuj TVBox",
+   "url": "https://raw.githubusercontent.com/CandyMuj/ResourceInterface/main/TVBox/candymuj.json",
+   "origin": "github/CandyMuj",
+   "count": 60,
+   "status": "ok",
+   "latency": 1912,
+   "error": "",
+   "checked_at": 1792237595,
+   "created_at": 1792207222
+  },
+  {
+   "id": 1,
+   "type": "book",
+   "kind": "book",
+   "name": "XIU2 自用书源",
+   "url": "https://raw.githubusercontent.com/XIU2/Yuedu/master/shuyuan",
+   "origin": "github/XIU2/Yuedu",
+   "count": 22,
+   "status": "ok",
+   "latency": 1381,
+   "error": "",
+   "checked_at": 1792237595,
+   "created_at": 1792207222
+  },
+  {
+   "id": 7,
+   "type": "tvbox",
+   "kind": "depot",
+   "name": "noimank 多仓",
+   "url": "https://raw.githubusercontent.com/noimank/tvbox/main/tvboxmuti.json",
+   "origin": "github/noimank",
+   "count": 14,
+   "status": "ok",
+   "latency": 1021,
+   "error": "",
+   "checked_at": 1792237595,
+   "created_at": 1792207222
+  },
+  {
+   "id": 2,
+   "type": "book",
+   "kind": "book",
+   "name": "CandyMuj 书源",
+   "url": "https://raw.githubusercontent.com/CandyMuj/ResourceInterface/main/Legado/candymuj.json",
+   "origin": "github/CandyMuj",
+   "count": 2,
+   "status": "ok",
+   "latency": 1164,
+   "error": "",
+   "checked_at": 1792237595,
+   "created_at": 1792207222
+  },
+  {
+   "id": 3,
+   "type": "book",
+   "kind": "book",
+   "name": "哔哩轻小说",
+   "url": "https://raw.githubusercontent.com/jiwangyihao/source-j-legado/main/bilinovel.json",
+   "origin": "github/jiwangyihao",
+   "count": 2,
+   "status": "ok",
+   "latency": 1636,
+   "error": "",
+   "checked_at": 1792237595,
+   "created_at": 1792207222
+  },
+  {
+   "id": 4,
+   "type": "book",
+   "kind": "book",
+   "name": "ESJ Zone",
+   "url": "https://raw.githubusercontent.com/jiwangyihao/source-j-legado/main/esjzone.json",
+   "origin": "github/jiwangyihao",
+   "count": 1,
+   "status": "ok",
+   "latency": 998,
+   "error": "",
+   "checked_at": 1792237595,
+   "created_at": 1792207222
+  }
+ ],
+ "book_count": 27,
+ "tvbox_count": 4
+}
