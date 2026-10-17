@@ -1,6 +1,6 @@
 {
- "built_at": 1792241566,
- "built_at_text": "2026-10-17 20:52",
+ "built_at": 1792241653,
+ "built_at_text": "2026-10-17 20:54",
  "stats": {
   "book": {
    "total": 5,
@@ -14,16 +14,16 @@
    "dead": 0,
    "items": 295
   },
-  "last_checked": 1792241566
+  "last_checked": 1792241651
  },
  "play": {
   "keyword": "庆余年",
   "total": 12,
-  "playable": 0
+  "playable": 2
  },
  "sources": [
   {
-   "id": 9,
+   "id": 49,
    "type": "book",
    "kind": "book",
    "name": "tickmao 书源全量",
@@ -31,10 +31,10 @@
    "origin": "github/tickmao",
    "count": 194,
    "status": "ok",
-   "latency": 203,
+   "latency": 1641,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792241489
   },
   {
    "id": 6,
@@ -45,10 +45,10 @@
    "origin": "github/qist",
    "count": 135,
    "status": "ok",
-   "latency": 249,
+   "latency": 1248,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792207222
   },
   {
    "id": 5,
@@ -59,10 +59,10 @@
    "origin": "github/gaotianliuyun",
    "count": 86,
    "status": "ok",
-   "latency": 247,
+   "latency": 1656,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792207222
   },
   {
    "id": 8,
@@ -73,10 +73,10 @@
    "origin": "github/CandyMuj",
    "count": 60,
    "status": "ok",
-   "latency": 240,
+   "latency": 1712,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792207222
   },
   {
    "id": 1,
@@ -87,10 +87,10 @@
    "origin": "github/XIU2/Yuedu",
    "count": 22,
    "status": "ok",
-   "latency": 273,
+   "latency": 2153,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792207222
   },
   {
    "id": 7,
@@ -101,10 +101,10 @@
    "origin": "github/noimank",
    "count": 14,
    "status": "ok",
-   "latency": 236,
+   "latency": 902,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792207222
   },
   {
    "id": 2,
@@ -115,10 +115,10 @@
    "origin": "github/CandyMuj",
    "count": 2,
    "status": "ok",
-   "latency": 218,
+   "latency": 969,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792207222
   },
   {
    "id": 3,
@@ -129,10 +129,10 @@
    "origin": "github/jiwangyihao",
    "count": 2,
    "status": "ok",
-   "latency": 247,
+   "latency": 1858,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792207222
   },
   {
    "id": 4,
@@ -143,10 +143,10 @@
    "origin": "github/jiwangyihao",
    "count": 1,
    "status": "ok",
-   "latency": 244,
+   "latency": 1006,
    "error": "",
-   "checked_at": 1792241566,
-   "created_at": 1792241565
+   "checked_at": 1792241651,
+   "created_at": 1792207222
   }
  ],
  "book_count": 221,

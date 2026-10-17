@@ -30,6 +30,8 @@ jobs:
           python-version: "3.12"
 
       - name: 检测源并生成静态站
+        env:
+          LBOX_SKIP_L4: "1"
         run: python server.py --build --out docs
 
       - name: 扫描 GitHub 上的新源

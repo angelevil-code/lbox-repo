@@ -561,28 +561,42 @@ def build_static(outdir):
     built_at = int(time.time())
 
     # L4：把所有 TVBox 源里的纯 HTTP 站点汇总，做「搜索→详情→播放」验证
+    # 注意：必须在国内网络跑。GitHub Actions 出口在境外，视频 CDN 会 404/403，
+    # 测出来全是死的，所以 CI 里设 LBOX_SKIP_L4=1 跳过，沿用本地推上去的结果。
     play = {"keyword": "", "total": 0, "playable": 0, "results": []}
-    try:
-        from play_probe import probe_sites
-        pool = []
-        for row in [x for x in sources if x["type"] == "tvbox" and x["status"] == "ok"]:
-            body, _, _ = fetch(normalize(row["url"]), retries=0)
-            if not body:
-                continue
-            obj, _ = loads_lenient(body.decode("utf-8", "ignore"))
-            if not isinstance(obj, dict):
-                continue
-            for s in (obj.get("sites") or []):
-                if isinstance(s, dict):
-                    s = dict(s)
-                    s["from"] = row["name"]
-                    pool.append(s)
-        if pool:
-            print(f"[build] L4 播放验证：{len(pool)} 个站点中筛出可直测的 …")
-            play = probe_sites(pool)
-            print(f"[build] L4 结果：{play['playable']}/{play['total']} 完整可播")
-    except Exception as e:
-        print(f"[build] L4 跳过：{e}")
+    if os.environ.get("LBOX_SKIP_L4") == "1":
+        old = os.path.join(outdir, "play.json")
+        if os.path.exists(old):
+            try:
+                with open(old, encoding="utf-8") as f:
+                    play = json.load(f)
+                print(f"[build] 跳过 L4（沿用已有结果 {play.get('playable')}/{play.get('total')}）")
+            except Exception:
+                pass
+        else:
+            print("[build] 跳过 L4（无历史结果）")
+    else:
+        try:
+            from play_probe import probe_sites
+            pool = []
+            for row in [x for x in sources if x["type"] == "tvbox" and x["status"] == "ok"]:
+                body, _, _ = fetch(normalize(row["url"]), retries=0)
+                if not body:
+                    continue
+                obj, _ = loads_lenient(body.decode("utf-8", "ignore"))
+                if not isinstance(obj, dict):
+                    continue
+                for s in (obj.get("sites") or []):
+                    if isinstance(s, dict):
+                        s = dict(s)
+                        s["from"] = row["name"]
+                        pool.append(s)
+            if pool:
+                print(f"[build] L4 播放验证：{len(pool)} 个站点中筛出可直测的 …")
+                play = probe_sites(pool)
+                print(f"[build] L4 结果：{play['playable']}/{play['total']} 完整可播")
+        except Exception as e:
+            print(f"[build] L4 跳过：{e}")
 
     def dump(name, obj):
         path = os.path.join(outdir, name)
