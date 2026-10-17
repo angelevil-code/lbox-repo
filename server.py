@@ -422,7 +422,8 @@ def html_escape(s):
             .replace(">", "&gt;").replace('"', "&quot;"))
 
 
-def render_static(sources, st, built_at):
+def render_static(sources, st, built_at, play=None):
+    play = play or {"keyword": "", "total": 0, "playable": 0}
     css_file = os.path.join(STATIC_DIR, "style.css")
     css = ""
     if os.path.exists(css_file):
@@ -479,6 +480,11 @@ a.btn {{ text-decoration: none; display: inline-flex; align-items: center; }}
     <div class="stat-head"><span class="dot tvbox"></span>TVBox 配置</div>
     <div class="stat-value"><b>{tv['ok']}</b><span>/ {tv['total']} 可用</span></div>
     <div class="stat-foot"><span>{tv['items']} 个站点</span></div>
+  </div>
+  <div class="stat">
+    <div class="stat-head"><span class="dot time"></span>直测可播</div>
+    <div class="stat-value"><b>{play['playable']}</b><span>/ {play['total']} 站点</span></div>
+    <div class="stat-foot"><span>搜索→详情→播放全通</span></div>
   </div>
   <div class="stat">
     <div class="stat-head"><span class="dot time"></span>最后更新</div>
@@ -554,6 +560,30 @@ def build_static(outdir):
     st = stats()
     built_at = int(time.time())
 
+    # L4：把所有 TVBox 源里的纯 HTTP 站点汇总，做「搜索→详情→播放」验证
+    play = {"keyword": "", "total": 0, "playable": 0, "results": []}
+    try:
+        from play_probe import probe_sites
+        pool = []
+        for row in [x for x in sources if x["type"] == "tvbox" and x["status"] == "ok"]:
+            body, _, _ = fetch(normalize(row["url"]), retries=0)
+            if not body:
+                continue
+            obj, _ = loads_lenient(body.decode("utf-8", "ignore"))
+            if not isinstance(obj, dict):
+                continue
+            for s in (obj.get("sites") or []):
+                if isinstance(s, dict):
+                    s = dict(s)
+                    s["from"] = row["name"]
+                    pool.append(s)
+        if pool:
+            print(f"[build] L4 播放验证：{len(pool)} 个站点中筛出可直测的 …")
+            play = probe_sites(pool)
+            print(f"[build] L4 结果：{play['playable']}/{play['total']} 完整可播")
+    except Exception as e:
+        print(f"[build] L4 跳过：{e}")
+
     def dump(name, obj):
         path = os.path.join(outdir, name)
         with open(path, "w", encoding="utf-8") as f:
@@ -562,16 +592,18 @@ def build_static(outdir):
 
     dump("book.json", book)
     dump("tvbox.json", tvbox)
+    dump("play.json", play)
     dump("index.json", {
         "built_at": built_at,
         "built_at_text": _fmt_time(built_at),
         "stats": st,
+        "play": {k: play.get(k) for k in ("keyword", "total", "playable")},
         "sources": sources,
         "book_count": len(book),
         "tvbox_count": len(tvbox.get("urls", [])),
     })
 
-    page = render_static(sources, st, built_at)
+    page = render_static(sources, st, built_at, play)
     with open(os.path.join(outdir, "index.html"), "w", encoding="utf-8") as f:
         f.write(page)
     print(f"[build] index.html     {os.path.getsize(os.path.join(outdir, 'index.html')):>9,d} B")
