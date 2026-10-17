@@ -48,6 +48,12 @@
       "name": "CandyMuj TVBox",
       "url": "https://raw.githubusercontent.com/CandyMuj/ResourceInterface/main/TVBox/candymuj.json",
       "origin": "github/CandyMuj"
+    },
+    {
+      "type": "book",
+      "name": "tickmao 书源全量",
+      "url": "https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json",
+      "origin": "github/tickmao"
     }
   ]
 }
