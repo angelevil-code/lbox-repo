@@ -1,7 +1,7 @@
 {
  "keyword": "庆余年",
  "total": 12,
- "playable": 2,
+ "playable": 3,
  "results": [
   {
    "name": "量子",
@@ -13,7 +13,7 @@
    "why": "m3u8",
    "media": "https://v.lzcdn28.com/20250923/2326_a9bf234a/index.m3u8",
    "ep": "第01集",
-   "ms": 846
+   "ms": 896
   },
   {
    "name": "非凡",
@@ -25,7 +25,7 @@
    "why": "HTTP 403",
    "media": "https://vip.ffzy-online2.com/share/116b896114ff71245852cace1f9f69c5",
    "ep": "第01集",
-   "ms": 2274
+   "ms": 2319
   },
   {
    "name": "haiwaikan",
@@ -49,7 +49,7 @@
    "why": "m3u8",
    "media": "https://s3.bfllvip.com/video/qingyuniandiyiji/136c9bdde962/index.m3u8",
    "ep": "第1集",
-   "ms": 1417
+   "ms": 1497
   },
   {
    "name": "索尼",
@@ -117,11 +117,11 @@
    "from": "高天流云 0821",
    "search": true,
    "detail": true,
-   "play": false,
-   "why": "连接失败",
+   "play": true,
+   "why": "m3u8",
    "media": "https://vod6.bdzybf11.com/20250125/1cg3Vq0l/index.m3u8",
    "ep": "第01集",
-   "ms": 404
+   "ms": 1001
   },
   {
    "name": "量子",

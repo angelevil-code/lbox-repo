@@ -75,6 +75,11 @@ def init_db():
         """)
         conn.execute("CREATE INDEX IF NOT EXISTS idx_type ON sources(type)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_status ON sources(status)")
+        # 老库迁移：加连续失败计数，避免网络抖动误杀好源
+        cols = {r["name"] for r in conn.execute("PRAGMA table_info(sources)")}
+        if "fail_count" not in cols:
+            conn.execute("ALTER TABLE sources ADD COLUMN fail_count INTEGER DEFAULT 0")
+            print("[db] 已加字段 fail_count")
 
 
 def load_seed():
@@ -296,12 +301,20 @@ def check_all(ids=None):
     now = int(time.time())
     with _DB_LOCK, closing(db()) as conn, conn:
         for sid, res in results:
-            conn.execute(
-                "UPDATE sources SET status=?, latency=?, error=?, count=?, kind=?, checked_at=? "
-                "WHERE id=?",
-                (res["status"], res["latency"], res["error"], res["count"],
-                 res["kind"], now, sid),
-            )
+            if res["status"] == "ok":
+                conn.execute(
+                    "UPDATE sources SET status=?, latency=?, error=?, count=?, kind=?, "
+                    "checked_at=?, fail_count=0 WHERE id=?",
+                    (res["status"], res["latency"], res["error"], res["count"],
+                     res["kind"], now, sid),
+                )
+            else:
+                conn.execute(
+                    "UPDATE sources SET status=?, latency=?, error=?, count=?, kind=?, "
+                    "checked_at=?, fail_count=COALESCE(fail_count,0)+1 WHERE id=?",
+                    (res["status"], res["latency"], res["error"], res["count"],
+                     res["kind"], now, sid),
+                )
     ok = sum(1 for _, r in results if r["status"] == "ok")
     return {"checked": len(results), "ok": ok, "dead": len(results) - ok}
 
@@ -364,14 +377,21 @@ def export_book():
 
 
 def export_tvbox():
-    """输出标准多仓格式 {"urls":[...]}，TVBox/影视仓 可直接订阅"""
-    rows = list_sources(typ="tvbox", status="ok")
+    """输出标准多仓格式 {"urls":[...]}，TVBox/影视仓 可直接订阅
+
+    剔除策略要保守：网络抖动很常见，一次失败就删会把好源误杀。
+      连续失败 1 次 → 照常输出（给它一次机会）
+      连续失败 2 次 → 输出但名称前加 ⚠️
+      连续失败 3 次 → 才真正剔除
+    """
+    rows = list_sources(typ="tvbox")
     urls = []
     for r in rows:
-        if r["kind"] == "depot":
-            urls.append({"url": r["url"], "name": r["name"]})
-        elif r["kind"] == "tvbox":
-            urls.append({"url": r["url"], "name": r["name"]})
+        fc = r.get("fail_count") or 0
+        if fc >= 3:
+            continue
+        name = f"⚠️ {r['name']}" if fc >= 2 else r["name"]
+        urls.append({"url": r["url"], "name": name})
     return {"urls": urls}
 
 
