@@ -1,6 +1,6 @@
 {
- "generated_at": 1792238936,
- "generated_at_text": "2026-10-17 12:08",
+ "generated_at": 1792239013,
+ "generated_at_text": "2026-10-17 20:10",
  "scanned_repos": 30,
  "count": 33,
  "candidates": [
@@ -10,7 +10,7 @@
    "type": "book",
    "kind": "book",
    "count": 550,
-   "latency": 455,
+   "latency": 181,
    "repo": "tickmao/Novel",
    "stars": 1967,
    "pushed": "2026-10-17"
@@ -21,7 +21,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 517,
-   "latency": 156,
+   "latency": 87,
    "repo": "Lightconer/tvbox-ysc-config",
    "stars": 130,
    "pushed": "2026-10-17"
@@ -32,7 +32,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 265,
-   "latency": 139,
+   "latency": 63,
    "repo": "xiongjian83/TvBox",
    "stars": 692,
    "pushed": "2026-10-17"
@@ -43,7 +43,7 @@
    "type": "book",
    "kind": "book",
    "count": 194,
-   "latency": 934,
+   "latency": 139,
    "repo": "tickmao/Novel",
    "stars": 1967,
    "pushed": "2026-10-17"
@@ -54,7 +54,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 139,
-   "latency": 129,
+   "latency": 72,
    "repo": "cluntop/tvbox",
    "stars": 576,
    "pushed": "2026-10-17"
@@ -65,7 +65,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 105,
-   "latency": 128,
+   "latency": 57,
    "repo": "qist/tvbox",
    "stars": 12050,
    "pushed": "2026-10-17"
@@ -76,7 +76,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 105,
-   "latency": 147,
+   "latency": 96,
    "repo": "ne7359/tvurl",
    "stars": 290,
    "pushed": "2026-10-17"
@@ -87,7 +87,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 84,
-   "latency": 167,
+   "latency": 82,
    "repo": "adminouyang/231006",
    "stars": 253,
    "pushed": "2026-10-17"
@@ -98,7 +98,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 53,
-   "latency": 145,
+   "latency": 90,
    "repo": "Lightconer/tvbox-ysc-config",
    "stars": 130,
    "pushed": "2026-10-17"
@@ -109,7 +109,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 42,
-   "latency": 117,
+   "latency": 60,
    "repo": "fswws/tvbox-source",
    "stars": 6,
    "pushed": "2026-10-17"
@@ -120,7 +120,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 33,
-   "latency": 124,
+   "latency": 59,
    "repo": "hebijunge/tvbox-config",
    "stars": 19,
    "pushed": "2026-10-17"
@@ -131,7 +131,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 31,
-   "latency": 143,
+   "latency": 60,
    "repo": "adminouyang/231006",
    "stars": 253,
    "pushed": "2026-10-17"
@@ -142,7 +142,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 29,
-   "latency": 149,
+   "latency": 98,
    "repo": "cluntop/tvbox",
    "stars": 576,
    "pushed": "2026-10-17"
@@ -153,7 +153,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 28,
-   "latency": 135,
+   "latency": 69,
    "repo": "qist/tvbox",
    "stars": 12050,
    "pushed": "2026-10-17"
@@ -164,7 +164,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 28,
-   "latency": 183,
+   "latency": 84,
    "repo": "ne7359/tvurl",
    "stars": 290,
    "pushed": "2026-10-17"
@@ -175,7 +175,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 22,
-   "latency": 114,
+   "latency": 72,
    "repo": "adminouyang/231006",
    "stars": 253,
    "pushed": "2026-10-17"
@@ -186,7 +186,7 @@
    "type": "book",
    "kind": "book",
    "count": 21,
-   "latency": 129,
+   "latency": 67,
    "repo": "cluntop/tvbox",
    "stars": 576,
    "pushed": "2026-10-17"
@@ -197,7 +197,7 @@
    "type": "tvbox",
    "kind": "depot",
    "count": 19,
-   "latency": 130,
+   "latency": 69,
    "repo": "ouyushan/tvbox-cfg",
    "stars": 4,
    "pushed": "2026-10-17"
@@ -208,7 +208,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 18,
-   "latency": 165,
+   "latency": 62,
    "repo": "larry-biu/tvbox-config",
    "stars": 3,
    "pushed": "2026-10-17"
@@ -219,7 +219,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 18,
-   "latency": 140,
+   "latency": 61,
    "repo": "larry-biu/tvbox-config",
    "stars": 3,
    "pushed": "2026-10-17"
@@ -230,7 +230,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 18,
-   "latency": 136,
+   "latency": 66,
    "repo": "larry-biu/tvbox-config",
    "stars": 3,
    "pushed": "2026-10-17"
@@ -241,7 +241,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 18,
-   "latency": 124,
+   "latency": 82,
    "repo": "larry-biu/tvbox-config",
    "stars": 3,
    "pushed": "2026-10-17"
@@ -252,7 +252,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 12,
-   "latency": 133,
+   "latency": 70,
    "repo": "Lightconer/tvbox-ysc-config",
    "stars": 130,
    "pushed": "2026-10-17"
@@ -263,7 +263,7 @@
    "type": "tvbox",
    "kind": "depot",
    "count": 11,
-   "latency": 150,
+   "latency": 67,
    "repo": "khw934/TV",
    "stars": 12,
    "pushed": "2026-10-17"
@@ -274,7 +274,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 10,
-   "latency": 145,
+   "latency": 62,
    "repo": "hebijunge/tvbox-config",
    "stars": 19,
    "pushed": "2026-10-17"
@@ -285,7 +285,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 10,
-   "latency": 116,
+   "latency": 58,
    "repo": "hebijunge/tvbox-config",
    "stars": 19,
    "pushed": "2026-10-17"
@@ -296,7 +296,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 9,
-   "latency": 189,
+   "latency": 70,
    "repo": "hebijunge/tvbox-config",
    "stars": 19,
    "pushed": "2026-10-17"
@@ -307,7 +307,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 9,
-   "latency": 170,
+   "latency": 80,
    "repo": "fswws/tvbox-source",
    "stars": 6,
    "pushed": "2026-10-17"
@@ -318,7 +318,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 8,
-   "latency": 117,
+   "latency": 60,
    "repo": "jiusanzhou/tvbox",
    "stars": 11,
    "pushed": "2026-10-17"
@@ -329,7 +329,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 8,
-   "latency": 124,
+   "latency": 60,
    "repo": "jiusanzhou/tvbox",
    "stars": 11,
    "pushed": "2026-10-17"
@@ -340,7 +340,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 5,
-   "latency": 143,
+   "latency": 82,
    "repo": "fswws/tvbox-source",
    "stars": 6,
    "pushed": "2026-10-17"
@@ -351,7 +351,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 1,
-   "latency": 178,
+   "latency": 64,
    "repo": "z2004y/source",
    "stars": 3,
    "pushed": "2026-10-17"
@@ -362,7 +362,7 @@
    "type": "tvbox",
    "kind": "tvbox",
    "count": 1,
-   "latency": 122,
+   "latency": 58,
    "repo": "z2004y/source",
    "stars": 3,
    "pushed": "2026-10-17"
