@@ -27,17 +27,27 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
         run: python add_from_issue.py
 
-      - name: 提交清单
+      - name: 重新检测并生成订阅
+        if: steps.add.outcome == 'success'
+        run: python server.py --build --out docs
+
+      - name: 顺便刷新候选页
+        if: steps.add.outcome == 'success'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python discover.py --out docs
+
+      - name: 提交清单与产物
         if: steps.add.outcome == 'success'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add seed_sources.json
+          git add -A
           if git diff --staged --quiet; then
-            echo "清单无变化（可能已存在）"
+            echo "无变化（可能已存在）"
             exit 0
           fi
-          git commit -m "feat: 从 issue #${{ github.event.issue.number }} 添加源"
+          git commit -m "feat: 从 issue #${{ github.event.issue.number }} 添加源并重建"
           for i in 1 2 3; do
             if git push; then
               echo "推送成功"
