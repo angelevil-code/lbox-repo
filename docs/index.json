@@ -1,6 +1,6 @@
 {
- "built_at": 1792298322,
- "built_at_text": "2026-10-18 12:38",
+ "built_at": 1792361233,
+ "built_at_text": "2026-10-19 06:07",
  "stats": {
   "book": {
    "total": 5,
@@ -14,7 +14,7 @@
    "dead": 0,
    "items": 1108
   },
-  "last_checked": 1792298321
+  "last_checked": 1792361232
  },
  "play": {
   "keyword": "庆余年",
@@ -31,10 +31,10 @@
    "origin": "github/jwarrenrzflynn",
    "count": 813,
    "status": "ok",
-   "latency": 91,
+   "latency": 190,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -46,10 +46,10 @@
    "origin": "github/tickmao",
    "count": 194,
    "status": "ok",
-   "latency": 448,
+   "latency": 414,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -61,10 +61,10 @@
    "origin": "github/qist",
    "count": 135,
    "status": "ok",
-   "latency": 290,
+   "latency": 227,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -76,10 +76,10 @@
    "origin": "github/gaotianliuyun",
    "count": 86,
    "status": "ok",
-   "latency": 169,
+   "latency": 186,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -91,10 +91,10 @@
    "origin": "github/CandyMuj",
    "count": 60,
    "status": "ok",
-   "latency": 215,
+   "latency": 188,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -106,10 +106,10 @@
    "origin": "github/XIU2/Yuedu",
    "count": 22,
    "status": "ok",
-   "latency": 364,
+   "latency": 197,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -121,10 +121,10 @@
    "origin": "github/noimank",
    "count": 14,
    "status": "ok",
-   "latency": 234,
+   "latency": 305,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -136,10 +136,10 @@
    "origin": "github/CandyMuj",
    "count": 2,
    "status": "ok",
-   "latency": 307,
+   "latency": 218,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -151,10 +151,10 @@
    "origin": "github/jiwangyihao",
    "count": 2,
    "status": "ok",
-   "latency": 318,
+   "latency": 243,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   },
   {
@@ -166,10 +166,10 @@
    "origin": "github/jiwangyihao",
    "count": 1,
    "status": "ok",
-   "latency": 299,
+   "latency": 224,
    "error": "",
-   "checked_at": 1792298321,
-   "created_at": 1792298321,
+   "checked_at": 1792361232,
+   "created_at": 1792361232,
    "fail_count": 0
   }
  ],
