@@ -54,6 +54,12 @@
       "name": "tickmao 书源全量",
       "url": "https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json",
       "origin": "github/tickmao"
+    },
+    {
+      "type": "tvbox",
+      "name": "ZakaTV",
+      "url": "https://raw.githubusercontent.com/jwarrenrzflynn/zakatv-cfg/main/ZakaTV.json",
+      "origin": "github/jwarrenrzflynn"
     }
   ]
 }

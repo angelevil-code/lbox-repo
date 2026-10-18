@@ -1,6 +1,10 @@
 {
  "urls": [
   {
+   "url": "https://raw.githubusercontent.com/jwarrenrzflynn/zakatv-cfg/main/ZakaTV.json",
+   "name": "ZakaTV"
+  },
+  {
    "url": "https://raw.githubusercontent.com/qist/tvbox/master/0825.json",
    "name": "qist 0825"
   },

@@ -25,5 +25,8 @@
  },
  "https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json": {
   "fail_count": 0
+ },
+ "https://raw.githubusercontent.com/jwarrenrzflynn/zakatv-cfg/main/ZakaTV.json": {
+  "fail_count": 0
  }
 }
