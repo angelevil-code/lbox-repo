@@ -1,12 +1,12 @@
 {
- "built_at": 1793143470,
- "built_at_text": "2026-10-28 07:24",
+ "built_at": 1793231113,
+ "built_at_text": "2026-10-29 07:45",
  "stats": {
   "book": {
    "total": 5,
    "ok": 5,
    "dead": 0,
-   "items": 221
+   "items": 168
   },
   "tvbox": {
    "total": 5,
@@ -14,7 +14,7 @@
    "dead": 0,
    "items": 1109
   },
-  "last_checked": 1793143470
+  "last_checked": 1793231113
  },
  "play": {
   "keyword": "庆余年",
@@ -31,10 +31,10 @@
    "origin": "github/jwarrenrzflynn",
    "count": 814,
    "status": "ok",
-   "latency": 140,
+   "latency": 156,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -44,12 +44,12 @@
    "name": "tickmao 书源全量",
    "url": "https://raw.githubusercontent.com/tickmao/Novel/master/sources/legado/full.json",
    "origin": "github/tickmao",
-   "count": 194,
+   "count": 141,
    "status": "ok",
-   "latency": 802,
+   "latency": 192,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -61,10 +61,10 @@
    "origin": "github/qist",
    "count": 135,
    "status": "ok",
-   "latency": 228,
+   "latency": 213,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -76,10 +76,10 @@
    "origin": "github/gaotianliuyun",
    "count": 86,
    "status": "ok",
-   "latency": 230,
+   "latency": 173,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -91,10 +91,10 @@
    "origin": "github/CandyMuj",
    "count": 60,
    "status": "ok",
-   "latency": 218,
+   "latency": 188,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -106,10 +106,10 @@
    "origin": "github/XIU2/Yuedu",
    "count": 22,
    "status": "ok",
-   "latency": 264,
+   "latency": 173,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -121,10 +121,10 @@
    "origin": "github/noimank",
    "count": 14,
    "status": "ok",
-   "latency": 228,
+   "latency": 216,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -136,10 +136,10 @@
    "origin": "github/CandyMuj",
    "count": 2,
    "status": "ok",
-   "latency": 277,
+   "latency": 223,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -151,10 +151,10 @@
    "origin": "github/jiwangyihao",
    "count": 2,
    "status": "ok",
-   "latency": 378,
+   "latency": 242,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   },
   {
@@ -166,13 +166,13 @@
    "origin": "github/jiwangyihao",
    "count": 1,
    "status": "ok",
-   "latency": 284,
+   "latency": 191,
    "error": "",
-   "checked_at": 1793143470,
-   "created_at": 1793143469,
+   "checked_at": 1793231113,
+   "created_at": 1793231113,
    "fail_count": 0
   }
  ],
- "book_count": 221,
+ "book_count": 165,
  "tvbox_count": 5
 }
